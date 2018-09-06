@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="2dp"
+    android:foreground="@drawable/card_foreground_selector"
+
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:padding="5dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:visibility="gone"
+        tools:background="#ffccff"
+        android:id="@+id/ivCover"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <TextView
+        android:id="@+id/tvName"
+        tools:text="新垣结衣"
+        android:gravity="center"
+        android:layout_width="100dp"
+        android:textColor="#333"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

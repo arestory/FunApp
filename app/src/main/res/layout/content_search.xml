@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".SearchActivity"
+    tools:showIn="@layout/activity_search">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/inputLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/etKeyword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="输入关键字" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/inputPageLayout"
+        app:layout_constraintTop_toBottomOf="@id/inputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/etPage"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="页码" />
+
+    </android.support.design.widget.TextInputLayout>
+    <RadioGroup
+        android:id="@+id/rg"
+        app:layout_constraintTop_toBottomOf="@id/inputPageLayout"
+
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rbActress"
+            android:text="艺术家"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/rbArtwork1"
+            android:text="高保真"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/rbArtwork2"
+            android:text="朦胧美"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+    <Button
+        android:id="@+id/btnSearch"
+        android:text="搜索"
+        app:layout_constraintTop_toBottomOf="@id/rg"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.ares.datacontentlayout.DataContentLayout
+        app:layout_constraintTop_toBottomOf="@id/btnSearch"
+        android:id="@+id/contentLayout"
+         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:background="#ececec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.ares.datacontentlayout.DataContentLayout>
+
+</android.support.constraint.ConstraintLayout>

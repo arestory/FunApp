@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FunApp</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="bottom_text">%s/%s</string>
+</resources>

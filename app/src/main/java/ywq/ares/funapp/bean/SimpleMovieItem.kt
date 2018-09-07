@@ -1,6 +1,8 @@
 package ywq.ares.funapp.bean
 
-class SimpleMovieItem {
+import java.io.Serializable
+
+class SimpleMovieItem:Serializable {
 
 
     var title:String?=null

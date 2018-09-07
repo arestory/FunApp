@@ -13,6 +13,8 @@ import ywq.ares.funapp.bean.BaseSearchItem
 import ywq.ares.funapp.http.AppConstants
 import android.graphics.BitmapFactory
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.view.View
+import android.widget.TextView
 
 
 class SearchItemAdapter
@@ -58,6 +60,17 @@ class SearchItemAdapter
             helper.setText(R.id.tvDate,item.date)
 
 
+            helper.getView<TextView>(R.id.tvDate).visibility = when(item.date){
+
+                null -> View.GONE
+                else -> View.VISIBLE
+            }
+
+            helper.getView<TextView>(R.id.tvContent).visibility = when(item.content){
+
+                null -> View.GONE
+                else -> View.VISIBLE
+            }
 
             Glide.with(cover).asBitmap().load(item.photoUrl).into(cover)
 //            GlideApp.with(cover).load(item.photoUrl).placeholder(R.drawable.ic_launcher_background).into(cover)

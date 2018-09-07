@@ -1,6 +1,8 @@
 package ywq.ares.funapp.bean
 
-class MovieSearchItem {
+import java.io.Serializable
+
+class MovieSearchItem :Serializable{
 
     var title:String?=null
     var coverPhotoUrl:String?=null

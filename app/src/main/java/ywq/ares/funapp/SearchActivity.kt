@@ -31,41 +31,33 @@ import ywq.ares.funapp.http.DataSource
 class SearchActivity : AppCompatActivity() {
 
     private val adapter = SearchItemAdapter(ArrayList())
-   private val api =  RetrofitServiceManager.getManager().create(AppConstants.URL.ARTWORK_URL,ArtworkApi::class.java)
+    private val api = RetrofitServiceManager.getManager().create(AppConstants.URL.ARTWORK_URL, ArtworkApi::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         setSupportActionBar(toolbar)
 
-        rv.adapter =adapter
+        rv.adapter = adapter
 
 
 
 
-        adapter.setOnItemClickEx(object :SearchItemAdapter.OnItemClickEx{
+        adapter.setOnItemClickEx(object : SearchItemAdapter.OnItemClickEx {
 
             override fun onClick(item: BaseSearchItem, position: Int) {
 
 
-                if(item is ActressSearchItem){
-
-                    Toast.makeText(this@SearchActivity,item.name,Toast.LENGTH_SHORT).show()
-                    DataSource.getActressDetail(item.id!!)
-                            .subscribe {
-
-                                Toast.makeText(this@SearchActivity,it.toString(),Toast.LENGTH_SHORT).show()
+                if (item is ActressSearchItem) {
 
 
-                            }
-                }else if(item is ArtWorkItem){
-                    Toast.makeText(this@SearchActivity,item.title,Toast.LENGTH_SHORT).show()
+                    ActressInfoActivity.start(item.id!!,this@SearchActivity)
 
-                   DataSource.getArtworkDetail(item.code!!) .subscribe {
 
-                                Toast.makeText(this@SearchActivity,it.toString(),Toast.LENGTH_SHORT).show()
+                } else if (item is ArtWorkItem) {
 
-                            }
+                    ArtworkDetailActivity.start(this@SearchActivity, item.code!!,item.title!!,item.photoUrl!!)
+
 
 
                 }
@@ -79,9 +71,9 @@ class SearchActivity : AppCompatActivity() {
             val keyword = etKeyword.text.toString()
 
 
-            val type = when(rg.checkedRadioButtonId){
+            val type = when (rg.checkedRadioButtonId) {
 
-                R.id.rbArtwork1 ->{
+                R.id.rbArtwork1 -> {
                     val layoutManager = StaggeredGridLayoutManager(3,
                             StaggeredGridLayoutManager.VERTICAL)
 //        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE//不设置的话，图片闪烁错位，有可能有整列错位的情况。
@@ -98,10 +90,10 @@ class SearchActivity : AppCompatActivity() {
                             outRect?.right = 10
                         }
                     })
-                    rv.layoutManager=layoutManager
+                    rv.layoutManager = layoutManager
                     1
                 }
-                R.id.rbArtwork2 ->{
+                R.id.rbArtwork2 -> {
 
                     val layoutManager = StaggeredGridLayoutManager(3,
                             StaggeredGridLayoutManager.VERTICAL)
@@ -119,8 +111,9 @@ class SearchActivity : AppCompatActivity() {
                             outRect?.right = 10
                         }
                     })
-                    rv.layoutManager=layoutManager
-                    0}
+                    rv.layoutManager = layoutManager
+                    0
+                }
                 R.id.rbActress -> {
 
                     val layoutManager = StaggeredGridLayoutManager(4,
@@ -139,7 +132,7 @@ class SearchActivity : AppCompatActivity() {
                             outRect?.right = 2
                         }
                     })
-                    rv.layoutManager=layoutManager
+                    rv.layoutManager = layoutManager
                     2
                 }
                 else -> -1
@@ -147,26 +140,26 @@ class SearchActivity : AppCompatActivity() {
             }
             contentLayout.showLoading()
             val page = etPage.text.toString().toInt()
-            if(type==2){
+            if (type == 2) {
 
-               DataSource.getActressList(keyword,page)
+                DataSource.getActressList(keyword, page)
                         .subscribe({
 
 
-                            if(!it.isEmpty()){
+                            if (!it.isEmpty()) {
 
                                 contentLayout.showEmptyContent("空内容")
 
                                 adapter.setNewData(it)
                                 contentLayout.showContent()
-                            }else{
+                            } else {
                                 contentLayout.showEmptyContent()
 
                             }
-                        },{
+                        }, {
 
                             it.printStackTrace()
-                            contentLayout.showError(object :DataContentLayout.ErrorListener{
+                            contentLayout.showError(object : DataContentLayout.ErrorListener {
                                 override fun showError(view: View) {
 
 
@@ -176,27 +169,27 @@ class SearchActivity : AppCompatActivity() {
                             })
                         })
 
-            }else{
+            } else {
 
 
-               DataSource.getArtworkList(keyword,page,type)
+                DataSource.getArtworkList(keyword, page, type)
                         .subscribe({
 
 
-                            if(!it.isEmpty()){
+                            if (!it.isEmpty()) {
 
                                 contentLayout.showEmptyContent("空内容")
 
                                 adapter.setNewData(it)
                                 contentLayout.showContent()
-                            }else{
+                            } else {
                                 contentLayout.showEmptyContent()
 
                             }
-                        },{
+                        }, {
 
                             it.printStackTrace()
-                            contentLayout.showError(object :DataContentLayout.ErrorListener{
+                            contentLayout.showError(object : DataContentLayout.ErrorListener {
                                 override fun showError(view: View) {
 
 
@@ -207,8 +200,6 @@ class SearchActivity : AppCompatActivity() {
                         })
 
             }
-
-
 
 
         }

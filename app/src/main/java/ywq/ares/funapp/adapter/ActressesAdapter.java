@@ -14,7 +14,6 @@ import java.util.List;
 import ywq.ares.funapp.R;
 import ywq.ares.funapp.bean.Actress;
 import ywq.ares.funapp.bean.ActressSearchItem;
-import ywq.ares.funapp.common.GlideApp;
 
 public class ActressesAdapter extends BaseQuickAdapter<Actress,BaseViewHolder> {
 

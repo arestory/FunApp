@@ -1,14 +1,13 @@
 package ywq.ares.funapp.fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearLayoutManager.VERTICAL
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import kotlinx.android.synthetic.main.fragment_actresses.*
+import ywq.ares.funapp.activity.ActressInfoActivity
 import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.ActressesAdapter
 import ywq.ares.funapp.bean.Actress
@@ -22,13 +21,18 @@ class ActressFragment : BaseFragment() {
 
     override fun initData(arguments: Bundle?, rootView: View?) {
 
-        val rv = rootView!!.findViewById<RecyclerView>(R.id.rv)
+        val rv = rootView!!.findViewById<RecyclerView>(R.id.rvInfo)
 
 
         val detail = arguments!!.getSerializable("movie") as MovieSearchItem
 
 
         val adapter = ActressesAdapter()
+        adapter.setOnItemClick { _, item ->
+
+            val id = item.artworkListUrl.split("/").last()
+            ActressInfoActivity.start(id,item.name,context!!)
+        }
 
         val actresses = ArrayList<Actress>()
         detail.actresses.forEach {
@@ -40,6 +44,7 @@ class ActressFragment : BaseFragment() {
         rv.addItemDecoration(DividerItemDecoration(activity,VERTICAL))
         rv.layoutManager = LinearLayoutManager(rv.context)
         rv.adapter = adapter
+
         if(actresses.isEmpty()){
 
             val tvEmpty = rootView.findViewById<TextView>(R.id.tvEmpty)

@@ -1,5 +1,29 @@
 <resources>
-    <string name="app_name">FunApp</string>
+    <string name="app_name">FunArtwork</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="bottom_text">%s/%s</string>
+    <string name="tips_keyword">input keyword</string>
+    <string name="tips_page">input page number</string>
+    <string name="rb_title_actress">artist</string>
+    <string name="rb_title_modernist">modernist</string>
+    <string name="rb_title_abstractionism">abstractionism</string>
+    <string name="btn_search">search</string>
+    <string name="title_about">About</string>
+    <string name="tab_title_intro">intro</string>
+    <string name="tab_title_artist">artist</string>
+    <string name="tab_title_gallery">gallery</string>
+    <string name="tab_title_relate">relate</string>
+    <string name="tips_empty">none</string>
+    <string name="str_unknown">unknown</string>
+    <string name="item_info_age">age</string>
+    <string name="item_info_birthday">birthday</string>
+    <string name="item_info_cup">cup</string>
+    <string name="item_info_stature">stature</string>
+    <string name="item_info_chestWidth">chestWidth</string>
+    <string name="item_info_waistline">waistline</string>
+    <string name="item_info_hipline">hipline</string>
+    <string name="item_info_home">home</string>
+    <string name="item_info_hobby">hobby</string>
+    <string name="title_detail">detail</string>
+    <string name="title_toggle_img">Show the photo</string>
 </resources>

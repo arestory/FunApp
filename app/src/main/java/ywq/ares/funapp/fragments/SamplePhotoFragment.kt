@@ -20,7 +20,7 @@ class SamplePhotoFragment: BaseFragment() {
     override fun initData(arguments: Bundle?, rootView: View?) {
 
         val obj = arguments!!.getSerializable("movie") as MovieSearchItem
-        val rv = rootView!!.findViewById<RecyclerView>(R.id.rv)
+        val rv = rootView!!.findViewById<RecyclerView>(R.id.rvInfo)
         val list = ArrayList<String>()
 
         list.addAll(obj.samplePhotos)

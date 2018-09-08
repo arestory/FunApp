@@ -18,7 +18,6 @@
         <TextView
             android:id="@+id/tvCode"
             android:padding="5dp"
-            tools:text="SCOP-321"
             android:layout_gravity="start"
             android:textColor="#CC0000"
             android:textSize="12sp"
@@ -27,7 +26,7 @@
 
 
         <ImageView
-            android:background="#ffccff"
+            android:background="@color/yellow"
             android:id="@+id/ivCover"
             android:layout_width="147dp"
             android:layout_height="200dp" />

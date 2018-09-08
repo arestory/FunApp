@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">风情艺术品</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="bottom_text">%s/%s</string>
+    <string name="tips_keyword">输入关键字</string>
+    <string name="tips_page">页数</string>
+    <string name="rb_title_actress">艺术家</string>
+    <string name="rb_title_modernist">现代派</string>
+    <string name="rb_title_abstractionism">抽象派</string>
+    <string name="btn_search">搜索</string>
+    <string name="title_about">关于</string>
+    <string name="tab_title_intro">简介</string>
+    <string name="tab_title_artist">艺术家</string>
+    <string name="tab_title_gallery">画廊</string>
+    <string name="tab_title_relate">相关艺术品</string>
+    <string name="tips_empty">暂无信息</string>
+    <string name="str_unknown">不详</string>
+
+
+    <string name="item_info_age">年龄</string>
+    <string name="item_info_birthday">生日</string>
+    <string name="item_info_cup">罩杯</string>
+    <string name="item_info_stature">身高</string>
+    <string name="item_info_chestWidth">胸围</string>
+    <string name="item_info_waistline">腰围</string>
+    <string name="item_info_hipline">臀围</string>
+    <string name="item_info_home">家乡</string>
+    <string name="item_info_hobby">兴趣</string>
+    <string name="title_detail">详情</string>
+    <string name="title_toggle_img">开启有图模式</string>
+</resources>

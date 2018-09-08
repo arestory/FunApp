@@ -1,15 +1,12 @@
-package ywq.ares.funapp
+package ywq.ares.funapp.activity
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Toast
 import com.ares.datacontentlayout.DataContentLayout
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_artwork_detail.*
+import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.ArtworkPageAdapter
 import ywq.ares.funapp.base.BaseActivity
 import ywq.ares.funapp.fragments.*
@@ -30,7 +27,7 @@ class ArtworkDetailActivity : BaseActivity() {
         coverUrl = intent.getStringExtra("coverUrl")
 
 
-        initToolbarSetting(toolbar,"详情")
+        initToolbarSetting(toolbar,code)
 
         dataLayout.showLoading()
 
@@ -45,13 +42,12 @@ class ArtworkDetailActivity : BaseActivity() {
 
         DataSource.getArtworkDetail(code).subscribe( {
 
-            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
             val fragmentList = ArrayList<Fragment>()
             val titleList = ArrayList<String>()
-            titleList.add("简介")
-            titleList.add("艺术家")
-            titleList.add("画廊")
-            titleList.add("相关艺术品")
+            titleList.add(getString(R.string.tab_title_intro))
+            titleList.add(getString(R.string.tab_title_artist))
+            titleList.add(getString(R.string.tab_title_gallery))
+            titleList.add(getString(R.string.tab_title_relate))
             fragmentList.add(ArtWorkInfoFragment.newInstance(it))
             fragmentList.add(ActressFragment.newInstance(it))
             fragmentList.add(SamplePhotoFragment.newInstance(it))

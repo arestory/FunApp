@@ -6,8 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.widget.TextView
-import kotlinx.android.synthetic.main.content_search.*
-import ywq.ares.funapp.ArtworkDetailActivity
+import ywq.ares.funapp.activity.ArtworkDetailActivity
 import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.SearchItemAdapter
 import ywq.ares.funapp.bean.ArtWorkItem
@@ -25,7 +24,7 @@ class RelateArtworkFragment :BaseFragment(){
     override fun initData(arguments: Bundle?, rootView: View?) {
         val detail = arguments!!.getSerializable("movie") as MovieSearchItem
 
-        val rv = rootView!!.findViewById<RecyclerView>(R.id.rv)
+        val rv = rootView!!.findViewById<RecyclerView>(R.id.rvInfo)
 
         val list = ArrayList<ArtWorkItem>()
         val adapter = SearchItemAdapter(list)

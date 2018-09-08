@@ -10,6 +10,10 @@ import ywq.ares.funapp.bean.*
 interface ArtworkApi {
 
 
+
+    @GET("/artwork/actress")
+    fun getArtworkListOfActress( @Query(value = "id") id: String,@Query("page") page:Int): Observable<List<ArtWorkItem>>
+
     @GET("/artwork/actresses/{page}")
     fun getActressList(@Path("page") page: Int): Observable<List<Actress>>
 

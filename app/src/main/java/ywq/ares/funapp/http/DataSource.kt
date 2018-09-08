@@ -8,12 +8,21 @@ import ywq.ares.funapp.bean.ActressDetail
 import ywq.ares.funapp.bean.ActressSearchItem
 import ywq.ares.funapp.bean.ArtWorkItem
 import ywq.ares.funapp.bean.MovieSearchItem
+import ywq.ares.funapp.util.SPUtils
 
 object DataSource {
 
 
     private val api =  RetrofitServiceManager.getManager().create(AppConstants.URL.ARTWORK_URL, ArtworkApi::class.java)
 
+
+    fun getArtworkListOfActress(id:String,page: Int):Observable<List<ArtWorkItem>>{
+
+
+
+        return api.getArtworkListOfActress(id,page).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+
+    }
 
     fun getActressDetail(id: String): Observable<ActressDetail> {
 
@@ -37,5 +46,13 @@ object DataSource {
 
 
         return api.getSearchList(keyword,page,type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+    }
+
+    fun isOpenPhoto():Boolean{
+
+
+        return SPUtils("user").getBoolean("openPhoto",true)
+
+
     }
 }

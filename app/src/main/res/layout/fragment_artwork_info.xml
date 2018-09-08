@@ -8,7 +8,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:background="#ffccff"
+        android:background="@color/yellow"
         android:layout_gravity="top"
         android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="7:4"

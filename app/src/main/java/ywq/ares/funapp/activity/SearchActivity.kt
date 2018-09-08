@@ -1,27 +1,21 @@
-package ywq.ares.funapp
+package ywq.ares.funapp.activity
 
 import android.graphics.Rect
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.*
-import android.support.v7.widget.LinearLayoutManager.HORIZONTAL
-import android.support.v7.widget.LinearLayoutManager.VERTICAL
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.HorizontalScrollView
-import android.widget.Toast
 import com.ares.datacontentlayout.DataContentLayout
 import com.ares.http.ArtworkApi
-import com.fivehundredpx.greedolayout.GreedoLayoutManager
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.content_search.*
+import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.SearchItemAdapter
 import ywq.ares.funapp.http.AppConstants
 import ywq.ares.funapp.http.RetrofitServiceManager
-import com.fivehundredpx.greedolayout.GreedoSpacingItemDecoration
 import ywq.ares.funapp.bean.ActressSearchItem
 import ywq.ares.funapp.bean.ArtWorkItem
 import ywq.ares.funapp.bean.BaseSearchItem
@@ -38,7 +32,7 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
         setSupportActionBar(toolbar)
 
-        rv.adapter = adapter
+        rvInfo.adapter = adapter
 
 
 
@@ -51,13 +45,12 @@ class SearchActivity : AppCompatActivity() {
                 if (item is ActressSearchItem) {
 
 
-                    ActressInfoActivity.start(item.id!!,this@SearchActivity)
+                    ActressInfoActivity.start(item.id!!, item.name!!,this@SearchActivity)
 
 
                 } else if (item is ArtWorkItem) {
 
-                    ArtworkDetailActivity.start(this@SearchActivity, item.code!!,item.title!!,item.photoUrl!!)
-
+                    ArtworkDetailActivity.start(this@SearchActivity, item.code!!, item.title!!, item.photoUrl!!)
 
 
                 }
@@ -79,7 +72,7 @@ class SearchActivity : AppCompatActivity() {
 //        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE//不设置的话，图片闪烁错位，有可能有整列错位的情况。
 
 
-                    rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                    rvInfo.addItemDecoration(object : RecyclerView.ItemDecoration() {
 
                         override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
                             super.getItemOffsets(outRect, view, parent, state)
@@ -90,7 +83,7 @@ class SearchActivity : AppCompatActivity() {
                             outRect?.right = 10
                         }
                     })
-                    rv.layoutManager = layoutManager
+                    rvInfo.layoutManager = layoutManager
                     1
                 }
                 R.id.rbArtwork2 -> {
@@ -100,7 +93,7 @@ class SearchActivity : AppCompatActivity() {
 //        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE//不设置的话，图片闪烁错位，有可能有整列错位的情况。
 
 
-                    rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                    rvInfo.addItemDecoration(object : RecyclerView.ItemDecoration() {
 
                         override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
                             super.getItemOffsets(outRect, view, parent, state)
@@ -111,7 +104,7 @@ class SearchActivity : AppCompatActivity() {
                             outRect?.right = 10
                         }
                     })
-                    rv.layoutManager = layoutManager
+                    rvInfo.layoutManager = layoutManager
                     0
                 }
                 R.id.rbActress -> {
@@ -121,7 +114,7 @@ class SearchActivity : AppCompatActivity() {
 //        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE//不设置的话，图片闪烁错位，有可能有整列错位的情况。
 
 
-                    rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                    rvInfo.addItemDecoration(object : RecyclerView.ItemDecoration() {
 
                         override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
                             super.getItemOffsets(outRect, view, parent, state)
@@ -132,7 +125,7 @@ class SearchActivity : AppCompatActivity() {
                             outRect?.right = 2
                         }
                     })
-                    rv.layoutManager = layoutManager
+                    rvInfo.layoutManager = layoutManager
                     2
                 }
                 else -> -1
@@ -148,7 +141,7 @@ class SearchActivity : AppCompatActivity() {
 
                             if (!it.isEmpty()) {
 
-                                contentLayout.showEmptyContent("空内容")
+                                contentLayout.showEmptyContent(getString(R.string.tips_empty))
 
                                 adapter.setNewData(it)
                                 contentLayout.showContent()
@@ -178,7 +171,7 @@ class SearchActivity : AppCompatActivity() {
 
                             if (!it.isEmpty()) {
 
-                                contentLayout.showEmptyContent("空内容")
+                                contentLayout.showEmptyContent(getString(R.string.tips_empty))
 
                                 adapter.setNewData(it)
                                 contentLayout.showContent()
@@ -205,5 +198,31 @@ class SearchActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        val id = item.itemId
+
+        return when (id) {
+
+            R.id.actionAbout -> {
+                AboutActivity.start(this)
+                true
+
+            }
+            else -> false
+        }
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        return true
+    }
+
 
 }

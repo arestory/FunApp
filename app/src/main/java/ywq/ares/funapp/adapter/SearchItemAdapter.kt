@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.widget.TextView
+import ywq.ares.funapp.http.DataSource
 
 
 class SearchItemAdapter
@@ -72,7 +73,14 @@ class SearchItemAdapter
                 else -> View.VISIBLE
             }
 
-            Glide.with(cover).asBitmap().load(item.photoUrl).into(cover)
+            if (DataSource.isOpenPhoto()) {
+
+                Glide.with(cover).asBitmap().load(item.photoUrl).into(cover)
+
+            }else{
+                Glide.with(helper.itemView.context).load(R.drawable.cover).into(cover)
+
+            }
 //            GlideApp.with(cover).load(item.photoUrl).placeholder(R.drawable.ic_launcher_background).into(cover)
 
         } else {
@@ -82,9 +90,17 @@ class SearchItemAdapter
             val obj  = (item as ActressSearchItem)
 
             helper.setText(R.id.tvName,obj.name)
-            Glide.with(cover).asBitmap().load(obj.avatar)
-                    .into(cover)
 
+            if (DataSource.isOpenPhoto()) {
+
+                Glide.with(cover).asBitmap().load(obj.avatar)
+                        .into(cover)
+
+                cover.visibility= View.VISIBLE
+            }else{
+                cover.visibility= View.INVISIBLE
+
+            }
 
         }
     }

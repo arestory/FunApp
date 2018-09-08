@@ -5,38 +5,36 @@ import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.item_actress_info.view.*
 import ywq.ares.funapp.R
 
-class InfoItemAdapter(var layoutId:Int) :BaseQuickAdapter<Pair<String,String>,BaseViewHolder>(layoutId){
+class InfoItemAdapter(var layoutId: Int) : BaseQuickAdapter<Pair<String, String>, BaseViewHolder>(layoutId) {
 
 
     override fun convert(helper: BaseViewHolder?, item: Pair<String, String>?) {
 
 
-        var value :String?=null
-        if(item?.second==null){
+        val value = if (item?.second == null) {
 
-            value = "不详"
+            helper!!.itemView.context.getString(R.string.str_unknown)
 
-        }else{
-            value = item.second
+        } else {
+            item.second
         }
-            val text =  when(item!!.first){
+        val context = helper!!.itemView.context
+        val text = when (item!!.first) {
 
-                "name" -> "名字："
-                "birthday"->"生日："
-                "age"->"年龄："
-                "cup"->"罩杯："
-                "stature"->"身高："
-                "chestWidth"->"胸围："
-                "waistline"->"腰围："
-                "hipline"->"臀围："
-                "home"->"家乡："
-                "hobby"->"兴趣："
-                else -> ""
-            }.plus(value)
+            "name" -> context.getString(R.string.app_name)
+            "birthday" -> context.getString(R.string.item_info_birthday)
+            "age" -> context.getString(R.string.item_info_age)
+            "cup" -> context.getString(R.string.item_info_cup)
+            "stature" -> context.getString(R.string.item_info_stature)
+            "chestWidth" -> context.getString(R.string.item_info_chestWidth)
+            "waistline" -> context.getString(R.string.item_info_waistline)
+            "hipline" -> context.getString(R.string.item_info_hipline)
+            "home" -> context.getString(R.string.item_info_home)
+            "hobby" -> context.getString(R.string.item_info_hobby)
+            else -> ""
+        }.plus(":").plus(value)
 
-            helper!!.setText(R.id.tvInfo,text)
-
-
+        helper.setText(R.id.tvInfo, text)
 
 
     }

@@ -1,4 +1,4 @@
-package ywq.ares.funapp
+package ywq.ares.funapp.util
 
 import android.content.Context
 import android.util.TypedValue

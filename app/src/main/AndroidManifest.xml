@@ -18,16 +18,21 @@
         <activity
             android:name=".activity.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.ArtworkDetailActivity" />
         <activity android:name=".activity.ActressInfoActivity" />
         <activity android:name=".activity.ArtworkListActivity" />
         <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.WelcomeActivity" android:theme="@style/WelcomeTheme">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

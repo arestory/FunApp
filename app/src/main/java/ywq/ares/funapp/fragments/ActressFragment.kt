@@ -10,6 +10,7 @@ import android.widget.TextView
 import ywq.ares.funapp.activity.ActressInfoActivity
 import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.ActressesAdapter
+import ywq.ares.funapp.adapter.SearchItemAdapter
 import ywq.ares.funapp.bean.Actress
 import ywq.ares.funapp.bean.MovieSearchItem
 
@@ -31,8 +32,9 @@ class ActressFragment : BaseFragment() {
         adapter.setOnItemClick { _, item ->
 
             val id = item.artworkListUrl.split("/").last()
-            ActressInfoActivity.start(id,item.name,context!!)
+            ActressInfoActivity.start(id,item.name,this@ActressFragment.activity!!)
         }
+
 
         val actresses = ArrayList<Actress>()
         detail.actresses.forEach {

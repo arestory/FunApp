@@ -61,7 +61,7 @@ public class ActressesAdapter extends BaseQuickAdapter<Actress, BaseViewHolder> 
         this.onItemClick = onItemClick;
     }
 
-    interface OnItemClick {
+   public interface OnItemClick {
 
 
         void click(int pos, Actress item);

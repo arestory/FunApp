@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <ImageView
-        android:visibility="gone"
-        tools:background="#ffccff"
+        android:visibility="visible"
+        tools:background="@drawable/avatar"
         android:id="@+id/ivCover"
         android:layout_width="100dp"
         android:layout_height="100dp" />

@@ -21,7 +21,7 @@ class InfoItemAdapter(var layoutId: Int) : BaseQuickAdapter<Pair<String, String>
         val context = helper!!.itemView.context
         val text = when (item!!.first) {
 
-            "name" -> context.getString(R.string.app_name)
+            "name" -> context.getString(R.string.item_info_name)
             "birthday" -> context.getString(R.string.item_info_birthday)
             "age" -> context.getString(R.string.item_info_age)
             "cup" -> context.getString(R.string.item_info_cup)

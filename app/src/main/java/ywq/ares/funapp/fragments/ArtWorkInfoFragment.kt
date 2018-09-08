@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 
 import ywq.ares.funapp.R
 import ywq.ares.funapp.bean.MovieSearchItem
+import ywq.ares.funapp.http.DataSource
 
 class ArtWorkInfoFragment : BaseFragment() {
 
@@ -23,7 +24,10 @@ class ArtWorkInfoFragment : BaseFragment() {
 
 
         val ivCover = rootView.findViewById<ImageView>(R.id.ivCover)
-        Glide.with(this).asBitmap().load(detail.coverPhotoUrl).into(ivCover)
+        if(DataSource.isOpenPhoto()){
+
+            Glide.with(this).asBitmap().load(detail.coverPhotoUrl).into(ivCover)
+        }
         val tvTitle = rootView.findViewById<TextView>(R.id.tvTitle)
 
         tvTitle.text = detail.title

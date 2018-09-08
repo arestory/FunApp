@@ -16,6 +16,7 @@
     <string name="tips_empty">none</string>
     <string name="str_unknown">unknown</string>
     <string name="item_info_age">age</string>
+    <string name="item_info_name">name</string>
     <string name="item_info_birthday">birthday</string>
     <string name="item_info_cup">cup</string>
     <string name="item_info_stature">stature</string>

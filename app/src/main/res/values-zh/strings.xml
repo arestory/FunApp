@@ -17,6 +17,7 @@
     <string name="str_unknown">不详</string>
 
 
+    <string name="item_info_name">名字</string>
     <string name="item_info_age">年龄</string>
     <string name="item_info_birthday">生日</string>
     <string name="item_info_cup">罩杯</string>

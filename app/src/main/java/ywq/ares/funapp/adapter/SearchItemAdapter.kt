@@ -74,13 +74,14 @@ class SearchItemAdapter
             }
 
             if (DataSource.isOpenPhoto()) {
-
                 Glide.with(cover).asBitmap().load(item.photoUrl).into(cover)
 
             }else{
-                Glide.with(helper.itemView.context).load(R.drawable.cover).into(cover)
-
+                Glide.with(cover).asBitmap().load(R.drawable.cover)
+                        .into(cover)
             }
+
+
 //            GlideApp.with(cover).load(item.photoUrl).placeholder(R.drawable.ic_launcher_background).into(cover)
 
         } else {
@@ -96,10 +97,11 @@ class SearchItemAdapter
                 Glide.with(cover).asBitmap().load(obj.avatar)
                         .into(cover)
 
-                cover.visibility= View.VISIBLE
-            }else{
-                cover.visibility= View.INVISIBLE
 
+            }else{
+
+                Glide.with(cover).asBitmap().load(R.drawable.avatar)
+                        .into(cover)
             }
 
         }

@@ -51,7 +51,7 @@ object DataSource {
     fun isOpenPhoto():Boolean{
 
 
-        return SPUtils("user").getBoolean("openPhoto",true)
+        return SPUtils("user").getBoolean("openPhoto",false)
 
 
     }

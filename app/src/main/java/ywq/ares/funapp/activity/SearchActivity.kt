@@ -7,6 +7,7 @@ import android.support.v7.widget.*
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.ares.datacontentlayout.DataContentLayout
 import com.ares.http.ArtworkApi
 
@@ -20,6 +21,7 @@ import ywq.ares.funapp.bean.ActressSearchItem
 import ywq.ares.funapp.bean.ArtWorkItem
 import ywq.ares.funapp.bean.BaseSearchItem
 import ywq.ares.funapp.http.DataSource
+import ywq.ares.funapp.util.KeyboradUtils
 
 
 class SearchActivity : AppCompatActivity() {
@@ -33,7 +35,17 @@ class SearchActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         rvInfo.adapter = adapter
+        rvInfo.addItemDecoration(object : RecyclerView.ItemDecoration() {
 
+            override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
+                super.getItemOffsets(outRect, view, parent, state)
+
+
+                outRect?.bottom = 20
+                outRect?.left = 10
+                outRect?.right = 10
+            }
+        })
 
 
 
@@ -64,6 +76,13 @@ class SearchActivity : AppCompatActivity() {
             val keyword = etKeyword.text.toString()
 
 
+
+            if(keyword == ""){
+
+                Toast.makeText(this,"请输入关键词",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            KeyboradUtils.hide(it)
             val type = when (rg.checkedRadioButtonId) {
 
                 R.id.rbArtwork1 -> {
@@ -72,17 +91,7 @@ class SearchActivity : AppCompatActivity() {
 //        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE//不设置的话，图片闪烁错位，有可能有整列错位的情况。
 
 
-                    rvInfo.addItemDecoration(object : RecyclerView.ItemDecoration() {
 
-                        override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
-                            super.getItemOffsets(outRect, view, parent, state)
-
-
-                            outRect?.bottom = 20
-                            outRect?.left = 10
-                            outRect?.right = 10
-                        }
-                    })
                     rvInfo.layoutManager = layoutManager
                     1
                 }
@@ -93,17 +102,7 @@ class SearchActivity : AppCompatActivity() {
 //        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE//不设置的话，图片闪烁错位，有可能有整列错位的情况。
 
 
-                    rvInfo.addItemDecoration(object : RecyclerView.ItemDecoration() {
 
-                        override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
-                            super.getItemOffsets(outRect, view, parent, state)
-
-
-                            outRect?.bottom = 20
-                            outRect?.left = 10
-                            outRect?.right = 10
-                        }
-                    })
                     rvInfo.layoutManager = layoutManager
                     0
                 }
@@ -132,7 +131,16 @@ class SearchActivity : AppCompatActivity() {
 
             }
             contentLayout.showLoading()
-            val page = etPage.text.toString().toInt()
+            val page = when(etPage.text.toString()){
+
+                "" ,"0"->
+                {
+                    etPage.setText("1")
+                    1
+                }
+                else -> etPage.text.toString().toInt()
+
+            }
             if (type == 2) {
 
                 DataSource.getActressList(keyword, page)

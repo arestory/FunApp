@@ -38,6 +38,8 @@ class ActressInfoActivity : BaseActivity() {
 
         adapter =  SearchItemAdapter(list)
         rvArtwork.adapter =adapter
+
+        rvArtwork.layoutManager =getLayoutManager()
         initToolbarSetting(toolbar,name)
         loadActressInfo(id)
         loadWorkList(id,currentPage)
@@ -69,23 +71,29 @@ class ActressInfoActivity : BaseActivity() {
 
     }
 
+    private var layoutManager:StaggeredGridLayoutManager?=null
+
 
     private fun getLayoutManager():StaggeredGridLayoutManager{
 
-        val layoutManager = StaggeredGridLayoutManager(3,
-                StaggeredGridLayoutManager.VERTICAL)
-        rvArtwork.addItemDecoration(object : RecyclerView.ItemDecoration() {
+        if(layoutManager ==null){
 
-            override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
-                super.getItemOffsets(outRect, view, parent, state)
+            layoutManager = StaggeredGridLayoutManager(3,
+                    StaggeredGridLayoutManager.VERTICAL)
+            rvArtwork.addItemDecoration(object : RecyclerView.ItemDecoration() {
+
+                override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
+                    super.getItemOffsets(outRect, view, parent, state)
 
 
-                outRect?.bottom = 20
-                outRect?.left = 10
-                outRect?.right = 10
-            }
-        })
-        return layoutManager
+                    outRect?.bottom = 20
+                    outRect?.left = 10
+                    outRect?.right = 10
+                }
+            })
+        }
+
+        return layoutManager!!
     }
     private fun loadWorkList(id: String,page :Int){
         dataLayout2.showLoading()
@@ -114,7 +122,6 @@ class ActressInfoActivity : BaseActivity() {
                 adapter.notifyDataSetChanged()
 
 
-                rvArtwork.layoutManager =getLayoutManager()
 
                 dataLayout2.showContent()
 

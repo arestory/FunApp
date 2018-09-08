@@ -8,6 +8,13 @@
     tools:context=".activity.SearchActivity"
     tools:showIn="@layout/activity_search">
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.design.widget.TextInputLayout
         android:id="@+id/inputLayout"
         app:layout_constraintTop_toTopOf="parent"
@@ -86,5 +93,6 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </com.ares.datacontentlayout.DataContentLayout>
-
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.constraint.ConstraintLayout>

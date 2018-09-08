@@ -64,6 +64,9 @@ class ActressInfoActivity : BaseActivity() {
             }
         })
 
+        rvInfo.isNestedScrollingEnabled = false
+        rvArtwork.isNestedScrollingEnabled = false
+
     }
 
 
@@ -135,6 +138,8 @@ class ActressInfoActivity : BaseActivity() {
     }
 
     fun loadActressInfo(id: String) {
+        cardView.visibility = View.INVISIBLE
+
         dataLayout.showLoading()
         DataSource.getActressDetail(id)
                 .subscribe({
@@ -144,7 +149,15 @@ class ActressInfoActivity : BaseActivity() {
                     val list = ArrayList<Pair<String, String>>()
 
 
-                    Glide.with(this).load(it.avatar).into(ivCover)
+                    if(DataSource.isOpenPhoto()){
+
+                        Glide.with(this).load(it.avatar).into(ivCover)
+                    }else{
+                        Glide.with(this).load(R.drawable.avatar).into(ivCover)
+
+                    }
+                    cardView.visibility = View.VISIBLE
+
                     list.add(Pair("name", it.name))
                     list.add(Pair("birthday", it.birthday))
                     list.add(Pair("age", it.age.toString()))

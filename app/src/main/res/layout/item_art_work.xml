@@ -26,6 +26,7 @@
 
 
         <ImageView
+            android:scaleType="centerCrop"
             android:background="@color/yellow"
             android:id="@+id/ivCover"
             android:layout_width="147dp"

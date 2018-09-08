@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">风情艺术品</string>
+    <string name="app_name">和风博物馆</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="bottom_text">%s/%s</string>
-    <string name="tips_keyword">输入关键字</string>
+    <string name="tips_keyword">輸入關鍵字(建議使用繁體字)</string>
     <string name="tips_page">页数</string>
     <string name="rb_title_actress">艺术家</string>
     <string name="rb_title_modernist">现代派</string>

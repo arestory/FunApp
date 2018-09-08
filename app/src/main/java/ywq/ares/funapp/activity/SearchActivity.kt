@@ -57,7 +57,7 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
-
+        rvInfo.isNestedScrollingEnabled = false
         contentLayout.nonShow()
         btnSearch.setOnClickListener {
 

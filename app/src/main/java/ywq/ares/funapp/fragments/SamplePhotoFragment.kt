@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import ywq.ares.funapp.R
+import ywq.ares.funapp.activity.ShowImageActivity
 import ywq.ares.funapp.adapter.SamplePhotoAdapter
 import ywq.ares.funapp.bean.MovieSearchItem
+import ywq.ares.funapp.http.DataSource
 
 class SamplePhotoFragment: BaseFragment() {
     override fun getLayoutId(): Int {
@@ -29,6 +31,16 @@ class SamplePhotoFragment: BaseFragment() {
 
         rv.addItemDecoration(DividerItemDecoration(activity,VERTICAL))
         rv.adapter =adapter
+
+        if(DataSource.isOpenPhoto()){
+
+            adapter.setOnItemClickListener { adapter, view, position ->
+
+
+                ShowImageActivity.start(context!!,list,position)
+
+            }
+        }
 
         if(list.isEmpty()){
 

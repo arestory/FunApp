@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.widget.TextView
+import ywq.ares.funapp.common.GlideApp
 import ywq.ares.funapp.http.DataSource
 
 
@@ -50,6 +51,7 @@ class SearchItemAdapter
     override fun convert(helper: BaseViewHolder, item: BaseSearchItem) {
 
         val cover = helper.getView<ImageView>(R.id.ivCover)
+        val tvTips = helper.getView<TextView>(R.id.tvTips)
         helper.itemView.setOnClickListener {
 
             itemClick?.onClick(item,helper.adapterPosition)
@@ -74,11 +76,15 @@ class SearchItemAdapter
             }
 
             if (DataSource.isOpenPhoto()) {
-                Glide.with(cover).asBitmap().load(item.photoUrl).into(cover)
+
+                GlideApp.with(cover).asBitmap().load(item.photoUrl).placeholder(R.drawable.cover).into(cover)
+                tvTips.visibility = View.GONE
+
 
             }else{
-                Glide.with(cover).asBitmap().load(R.drawable.cover)
+                GlideApp.with(cover).asBitmap().load(R.drawable.cover)
                         .into(cover)
+                tvTips.visibility = View.VISIBLE
             }
 
 
@@ -94,14 +100,17 @@ class SearchItemAdapter
 
             if (DataSource.isOpenPhoto()) {
 
-                Glide.with(cover).asBitmap().load(obj.avatar)
+                GlideApp.with(cover).asBitmap().load(obj.avatar).placeholder(R.drawable.avatar)
                         .into(cover)
 
+                tvTips.visibility = View.GONE
 
             }else{
 
-                Glide.with(cover).asBitmap().load(R.drawable.avatar)
+                GlideApp.with(cover).asBitmap().load(R.drawable.avatar)
                         .into(cover)
+                tvTips.visibility = View.VISIBLE
+
             }
 
         }

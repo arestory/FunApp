@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Toast
 import com.ares.datacontentlayout.DataContentLayout
 import com.ares.http.ArtworkApi
+import io.reactivex.disposables.Disposable
 
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.content_search.*
@@ -29,8 +30,8 @@ import ywq.ares.funapp.util.KeyboradUtils
 class SearchActivity : AppCompatActivity() {
 
     private val adapter = SearchItemAdapter(ArrayList())
-    private val api = RetrofitServiceManager.getManager().create(AppConstants.URL.ARTWORK_URL, ArtworkApi::class.java)
 
+    private var disposable:Disposable?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -44,6 +45,7 @@ class SearchActivity : AppCompatActivity() {
 
 
                 outRect?.bottom = 20
+                outRect?.top = 20
                 outRect?.left = 10
                 outRect?.right = 10
             }
@@ -75,6 +77,7 @@ class SearchActivity : AppCompatActivity() {
         contentLayout.nonShow()
         btnSearch.setOnClickListener {
 
+            disposable?.dispose()
             val keyword = etKeyword.text.toString()
 
 
@@ -145,7 +148,7 @@ class SearchActivity : AppCompatActivity() {
             }
             if (type == 2) {
 
-                DataSource.getActressList(keyword, page)
+                disposable=   DataSource.getActressList(keyword, page)
                         .subscribe({
 
 
@@ -175,7 +178,7 @@ class SearchActivity : AppCompatActivity() {
             } else {
 
 
-                DataSource.getArtworkList(keyword, page, type)
+                disposable=    DataSource.getArtworkList(keyword, page, type)
                         .subscribe({
 
 
@@ -234,6 +237,11 @@ class SearchActivity : AppCompatActivity() {
         return true
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
+    }
     companion object {
 
 

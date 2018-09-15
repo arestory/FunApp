@@ -8,7 +8,8 @@
     <string name="rb_title_modernist">现代派</string>
     <string name="rb_title_abstractionism">抽象派</string>
     <string name="btn_search">搜索</string>
-    <string name="title_about">关于</string>
+    <string name="title_about">关于</string>    <string name="title_setting">设置</string>
+
     <string name="tab_title_intro">简介</string>
     <string name="tab_title_artist">艺术家</string>
     <string name="tab_title_gallery">画廊</string>
@@ -29,4 +30,5 @@
     <string name="item_info_hobby">兴趣</string>
     <string name="title_detail">详情</string>
     <string name="title_toggle_img">开启有图模式</string>
+    <string name="inivisible">已隐藏</string>
 </resources>

@@ -8,8 +8,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <path
-        android:fillColor="#fde71e"
-        android:strokeColor="#fde71e"
+        android:fillColor="#202929"
+        android:strokeColor="#202929"
         android:pathData="L 0 0, 0 147 147,200 147,0"
 
         />

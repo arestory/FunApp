@@ -15,6 +15,7 @@ import java.util.List;
 import ywq.ares.funapp.R;
 import ywq.ares.funapp.bean.Actress;
 import ywq.ares.funapp.bean.ActressSearchItem;
+import ywq.ares.funapp.common.GlideApp;
 import ywq.ares.funapp.http.DataSource;
 
 public class ActressesAdapter extends BaseQuickAdapter<Actress, BaseViewHolder> {
@@ -34,11 +35,10 @@ public class ActressesAdapter extends BaseQuickAdapter<Actress, BaseViewHolder> 
 
 //        GlideApp.with(cover).load(item.getAvatar()).placeholder(R.drawable.ic_launcher_background).into(cover);
         if(DataSource.INSTANCE.isOpenPhoto()){
-            Glide.with(cover).load(item.getAvatar()).into(cover);
+            GlideApp.with(cover).load(item.getAvatar()).placeholder(R.drawable.avatar).into(cover);
 
         }else{
-            Glide.with(cover).asDrawable().load(R.drawable.avatar).into(cover);
-
+            GlideApp.with(cover).asDrawable().load(R.drawable.avatar).into(cover);
         }
         helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

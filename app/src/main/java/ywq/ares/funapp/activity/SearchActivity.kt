@@ -24,6 +24,7 @@ import ywq.ares.funapp.bean.ActressSearchItem
 import ywq.ares.funapp.bean.ArtWorkItem
 import ywq.ares.funapp.bean.BaseSearchItem
 import ywq.ares.funapp.http.DataSource
+import ywq.ares.funapp.util.FastClickListener
 import ywq.ares.funapp.util.KeyboradUtils
 
 
@@ -37,6 +38,11 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
         setSupportActionBar(toolbar)
 
+        toolbar.setOnClickListener{
+
+            nestedSv.scrollTo(0,-100)
+
+        }
         rvInfo.adapter = adapter
         rvInfo.addItemDecoration(object : RecyclerView.ItemDecoration() {
 

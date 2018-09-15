@@ -7,12 +7,14 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import com.ares.datacontentlayout.DataContentLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_actress_works.*
 import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.SearchItemAdapter
 
 import ywq.ares.funapp.base.BaseActivity
 import ywq.ares.funapp.http.DataSource
+import ywq.ares.funapp.util.CacheDataManager
 
 class ArtworkListActivity : BaseActivity() {
 
@@ -53,6 +55,10 @@ class ArtworkListActivity : BaseActivity() {
 
             btnSearch.isEnabled = true
 
+            if (!CacheDataManager.getInstance().cacheExist("artist-".plus(id).plus("-$page"))) {
+
+                DataSource.cacheDataManager.saveCache(Gson().toJson(it),"artist-".plus(id).plus("-$page"),{})
+            }
             if(it.isEmpty()){
 
                 dataLayout.showEmptyContent()

@@ -3,6 +3,7 @@
     <string name="title_activity_search">SearchActivity</string>
     <string name="bottom_text">%s/%s</string>
     <string name="tips_keyword">輸入關鍵字(建議使用繁體字)</string>
+    <string name="input_keyword_tips">请输入关键词</string>
     <string name="tips_page">页数</string>
     <string name="rb_title_actress">艺术家</string>
     <string name="rb_title_modernist">现代派</string>
@@ -31,4 +32,13 @@
     <string name="title_detail">详情</string>
     <string name="title_toggle_img">开启有图模式</string>
     <string name="inivisible">已隐藏</string>
+
+    <string name="action_jump">跳转</string>
+    <string name="title_alert_dialog">为确保您能正常使用本APP的功能，请跳转到应用权限设置页面，开启相应的应用权限</string>
+    <string name="tips_authority">读写权限是用于图片文件读取，请通过权限验证以确保APP的功能正常</string>
+    <string name="miss_permission">权限缺失</string>
+    <string name="miss_permission_tips">请同意这些权限，否则无法使用</string>
+    <string name="str_retry_apply">重新申请</string>    <string name="action_cancel">取消</string>
+    <string name="save_image_tips">你可以通过长按图片，进行保存</string>
+
 </resources>

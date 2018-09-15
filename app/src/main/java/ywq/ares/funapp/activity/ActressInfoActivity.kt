@@ -10,6 +10,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import com.ares.datacontentlayout.DataContentLayout
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_actress_detail.*
 import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.InfoItemAdapter
@@ -18,6 +20,7 @@ import ywq.ares.funapp.base.BaseActivity
 import ywq.ares.funapp.bean.ArtWorkItem
 import ywq.ares.funapp.bean.BaseSearchItem
 import ywq.ares.funapp.http.DataSource
+import ywq.ares.funapp.util.CacheDataManager
 
 class ActressInfoActivity : BaseActivity() {
     override fun getLayoutId(): Int {
@@ -95,6 +98,8 @@ class ActressInfoActivity : BaseActivity() {
 
         return layoutManager!!
     }
+
+    private var lastRequst:Disposable?=null
     private fun loadWorkList(id: String,page :Int){
         dataLayout2.showLoading()
 
@@ -105,7 +110,14 @@ class ActressInfoActivity : BaseActivity() {
         }else{
             btnPre.visibility =View.INVISIBLE
         }
-        DataSource.getArtworkListOfActress(id,page).subscribe({
+
+
+        //取消上一次请求
+        if(lastRequst!=null){
+
+            lastRequst?.dispose()
+        }
+        lastRequst=   DataSource.getArtworkListOfActress(id,page).subscribe({
 
 
             println("size = ${it.size}")
@@ -121,10 +133,12 @@ class ActressInfoActivity : BaseActivity() {
                 list.addAll(it)
                 adapter.notifyDataSetChanged()
 
-
-
                 dataLayout2.showContent()
+                val key = "artist-".plus(id).plus("-artworkList-$page")
+                if(!CacheDataManager.getInstance().cacheExist(key)) {
+                    CacheDataManager.getInstance().saveCache(Gson().toJson(it),key,{})
 
+                }
             }
             if(it.size<30){
                 btnNext.visibility=View.GONE
@@ -156,12 +170,17 @@ class ActressInfoActivity : BaseActivity() {
                     val list = ArrayList<Pair<String, String>>()
 
 
+                    val url = it.avatar
                     if(DataSource.isOpenPhoto()){
 
-                        Glide.with(this).load(it.avatar).into(ivCover)
+                        Glide.with(this).load(url).into(ivCover)
                     }else{
                         Glide.with(this).load(R.drawable.avatar).into(ivCover)
 
+                    }
+                    ivCover.setOnClickListener {
+
+                        ShowImageActivity.start(this@ActressInfoActivity, arrayListOf(url),0)
                     }
                     cardView.visibility = View.VISIBLE
 
@@ -182,6 +201,12 @@ class ActressInfoActivity : BaseActivity() {
                     rvInfo.adapter =adapter
                     rvInfo.addItemDecoration(DividerItemDecoration(this,LinearLayoutManager.VERTICAL))
                     dataLayout.showContent()
+
+                    val key = "artist-info-".plus(id)
+                    if(!CacheDataManager.getInstance().cacheExist(key)){
+
+                        CacheDataManager.getInstance().saveCache(Gson().toJson(it),key,{})
+                    }
                 }, {
 
 

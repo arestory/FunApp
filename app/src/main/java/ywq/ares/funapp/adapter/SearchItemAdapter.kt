@@ -103,13 +103,11 @@ class SearchItemAdapter
                 GlideApp.with(cover).asBitmap().load(obj.avatar).placeholder(R.drawable.avatar)
                         .into(cover)
 
-                tvTips.visibility = View.GONE
 
             }else{
 
                 GlideApp.with(cover).asBitmap().load(R.drawable.avatar)
                         .into(cover)
-                tvTips.visibility = View.VISIBLE
 
             }
 

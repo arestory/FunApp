@@ -14,7 +14,6 @@
         android:background="@drawable/avatar"
         android:layout_width="100dp"
         android:layout_height="100dp" />
-
     <TextView
         android:id="@+id/tvName"
 

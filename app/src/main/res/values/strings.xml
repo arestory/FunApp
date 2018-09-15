@@ -29,4 +29,17 @@
     <string name="title_detail">detail</string>
     <string name="title_toggle_img">Show the photo</string>
     <string name="inivisible">inivisible</string>
+    <string name="action_jump">jump</string>
+    <string name="input_keyword_tips">please input the keyword</string>
+    <string name="save_image_tips">you can save the photo through long pressed</string>
+    <string name="miss_permission_tips">Please agree to these permissions, otherwise they cannot be used</string>
+
+    <string name="title_alert_dialog" translatable="false">"To ensure that you can normally use the functions of the APP, please jump to the application permission and open the corresponding application permission "</string>
+
+    <string name="tips_authority">Read and write permission is used for image file reading. Please verify the permission to ensure the normal function of APP</string>
+
+    <string name="miss_permission">Lack of permissions</string>
+    <string name="str_retry_apply">apply</string>
+    <string name="action_cancel">cancel</string>
+
 </resources>

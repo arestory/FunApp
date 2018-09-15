@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_show_image_list.*
 
 import java.util.ArrayList
@@ -46,9 +47,10 @@ class ShowImageActivity : BaseActivity() {
         imagePosition = intent.getIntExtra(POSITION, 0)
         imageFragments = createImageFragments()
 
+        Toast.makeText(this,getString(R.string.save_image_tips),Toast.LENGTH_LONG).show()
 
         val adapter = PicturePagerAdapter(supportFragmentManager, imageFragments)
-        vpImage.setAdapter(adapter)
+        vpImage.adapter = adapter
 
         vpImage.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -56,7 +58,7 @@ class ShowImageActivity : BaseActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-                tvPictureNum.setText((position + 1).toString() + "/" + imageFragments!!.size)
+                tvPictureNum.text = (position + 1).toString() + "/" + imageFragments!!.size
 
             }
 
@@ -66,8 +68,8 @@ class ShowImageActivity : BaseActivity() {
         })
 
 
-        vpImage.setCurrentItem(imagePosition)
-        tvPictureNum.setText((imagePosition + 1).toString() + "/" + imageFragments!!.size)
+        vpImage.currentItem = imagePosition
+        tvPictureNum.text = (imagePosition + 1).toString() + "/" + imageFragments!!.size
     }
 
     /**
@@ -91,8 +93,8 @@ class ShowImageActivity : BaseActivity() {
     companion object {
 
 
-        val IMAGES = "images"
-        val POSITION = "position"
+       const val IMAGES = "images"
+       const val POSITION = "position"
         fun start(context: Context, imagesUrl: ArrayList<String>, position: Int) {
             val starter = Intent(context, ShowImageActivity::class.java)
             starter.putStringArrayListExtra(IMAGES, imagesUrl)

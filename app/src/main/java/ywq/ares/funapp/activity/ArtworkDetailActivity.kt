@@ -5,12 +5,15 @@ import android.content.Intent
 import android.support.v4.app.Fragment
 import android.view.View
 import com.ares.datacontentlayout.DataContentLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_artwork_detail.*
 import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.ArtworkPageAdapter
 import ywq.ares.funapp.base.BaseActivity
 import ywq.ares.funapp.fragments.*
 import ywq.ares.funapp.http.DataSource
+import ywq.ares.funapp.util.CacheDataManager
+import java.io.File
 
 class ArtworkDetailActivity : BaseActivity() {
 
@@ -27,7 +30,7 @@ class ArtworkDetailActivity : BaseActivity() {
         coverUrl = intent.getStringExtra("coverUrl")
 
 
-        initToolbarSetting(toolbar,code)
+        initToolbarSetting(toolbar, code)
 
         dataLayout.showLoading()
 
@@ -38,9 +41,9 @@ class ArtworkDetailActivity : BaseActivity() {
     }
 
 
-    fun loadData(code:String){
+    fun loadData(code: String) {
 
-        DataSource.getArtworkDetail(code).subscribe( {
+        DataSource.getArtworkDetail(code).subscribe({
 
             val fragmentList = ArrayList<Fragment>()
             val titleList = ArrayList<String>()
@@ -52,15 +55,20 @@ class ArtworkDetailActivity : BaseActivity() {
             fragmentList.add(ActressFragment.newInstance(it))
             fragmentList.add(SamplePhotoFragment.newInstance(it))
             fragmentList.add(RelateArtworkFragment.newInstance(it))
-            val adapter = ArtworkPageAdapter(supportFragmentManager,fragmentList,titleList)
+            val adapter = ArtworkPageAdapter(supportFragmentManager, fragmentList, titleList)
 
-            viewPager.adapter =adapter
+            viewPager.adapter = adapter
+            //保存缓存
+            if (!CacheDataManager.getInstance().cacheExist("artwork-".plus(code))) {
 
+                CacheDataManager.getInstance().saveCache(Gson().toJson(it), "artwork-".plus(code), {})
+            }
             tabLayout.setupWithViewPager(viewPager)
-            tabLayout.visibility =View.VISIBLE
+            tabLayout.visibility = View.VISIBLE
+
             dataLayout.showContent()
-        },{
-            dataLayout.showError(object :DataContentLayout.ErrorListener{
+        }, {
+            dataLayout.showError(object : DataContentLayout.ErrorListener {
                 override fun showError(view: View) {
 
 
@@ -76,7 +84,6 @@ class ArtworkDetailActivity : BaseActivity() {
     }
 
 
-
     override fun getLayoutId(): Int {
 
         return R.layout.activity_artwork_detail
@@ -85,7 +92,7 @@ class ArtworkDetailActivity : BaseActivity() {
     companion object {
 
 
-        fun start(context: Context, code: String,title:String,coverUrl:String) {
+        fun start(context: Context, code: String, title: String, coverUrl: String) {
 
             val intent = Intent(context, ArtworkDetailActivity::class.java)
 

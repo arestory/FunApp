@@ -57,7 +57,7 @@ class ArtworkListActivity : BaseActivity() {
 
             if (!CacheDataManager.getInstance().cacheExist("artist-".plus(id).plus("-$page"))) {
 
-                DataSource.cacheDataManager.saveCache(Gson().toJson(it),"artist-".plus(id).plus("-$page"),{})
+                CacheDataManager.getInstance().saveCache(Gson().toJson(it),"artist-".plus(id).plus("-$page"),{})
             }
             if(it.isEmpty()){
 

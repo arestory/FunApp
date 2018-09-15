@@ -87,6 +87,8 @@
                 android:id="@+id/dataLayout2"
                 android:layout_width="500dp"
 
+
+                android:layout_marginTop="20dp"
                 android:layout_marginStart="200dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">

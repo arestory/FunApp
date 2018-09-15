@@ -14,6 +14,8 @@ import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.PicturePagerAdapter
 import ywq.ares.funapp.base.BaseActivity
 import ywq.ares.funapp.fragments.PictureFragment
+import ywq.ares.funapp.http.DataSource
+import ywq.ares.funapp.util.SPUtils
 
 class ShowImageActivity : BaseActivity() {
 
@@ -47,7 +49,11 @@ class ShowImageActivity : BaseActivity() {
         imagePosition = intent.getIntExtra(POSITION, 0)
         imageFragments = createImageFragments()
 
-        Toast.makeText(this,getString(R.string.save_image_tips),Toast.LENGTH_LONG).show()
+        if(DataSource.hadOpenShowPhoto()){
+
+            Toast.makeText(this,getString(R.string.save_image_tips),Toast.LENGTH_LONG).show()
+            SPUtils("user").put("showPhotoTipsFirstTime", false)
+        }
 
         val adapter = PicturePagerAdapter(supportFragmentManager, imageFragments)
         vpImage.adapter = adapter

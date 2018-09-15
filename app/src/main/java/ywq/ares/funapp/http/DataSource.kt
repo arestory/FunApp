@@ -18,7 +18,7 @@ import java.util.function.BiFunction
 
 object DataSource {
 
-    val cacheDataManager = CacheDataManager.getInstance()
+   private val cacheDataManager = CacheDataManager.getInstance()
 
     private val api = RetrofitServiceManager.getManager().create(AppConstants.URL.ARTWORK_URL, ArtworkApi::class.java)
 
@@ -148,6 +148,13 @@ object DataSource {
 
         return SPUtils("user").getBoolean("openPhoto", false)
 
+
+    }
+
+    fun hadOpenShowPhoto():Boolean{
+
+
+        return SPUtils("user").getBoolean("showPhotoTipsFirstTime", true)
 
     }
 }

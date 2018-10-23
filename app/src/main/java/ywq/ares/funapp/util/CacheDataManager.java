@@ -156,7 +156,7 @@ public class CacheDataManager {
 
                         if (file.exists()) {
                             file.delete();
-
+                        }
                             //写入
                             try {
                                 writer = new BufferedWriter(new FileWriter(file));
@@ -176,7 +176,6 @@ public class CacheDataManager {
 
                                 }
                             }
-                        }
                     }
                 });
 

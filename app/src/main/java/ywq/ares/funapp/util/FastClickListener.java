@@ -2,6 +2,7 @@ package ywq.ares.funapp.util;
 
 import android.view.View;
 
+
 public  abstract  class FastClickListener implements View.OnClickListener {
 
     private long lastClickTime =0;

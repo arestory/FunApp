@@ -13,6 +13,8 @@ import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.SearchItemAdapter
 
 import ywq.ares.funapp.base.BaseActivity
+import ywq.ares.funapp.bean.Actress
+import ywq.ares.funapp.bean.CollectionBean
 import ywq.ares.funapp.http.DataSource
 import ywq.ares.funapp.util.CacheDataManager
 
@@ -28,7 +30,6 @@ class ArtworkListActivity : BaseActivity() {
         etPage.setText("1")
 
         val id = intent.getStringExtra("id")
-
 
 
 
@@ -71,15 +72,16 @@ class ArtworkListActivity : BaseActivity() {
                         StaggeredGridLayoutManager.VERTICAL)
                 rvInfo.addItemDecoration(object : RecyclerView.ItemDecoration() {
 
-                    override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
+                    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                         super.getItemOffsets(outRect, view, parent, state)
-
 
                         outRect?.bottom = 20
                         outRect?.left = 10
                         outRect?.right = 10
                     }
                 })
+
+
 
                 rvInfo.layoutManager =layoutManager
 

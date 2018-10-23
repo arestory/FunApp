@@ -127,8 +127,8 @@ class SearchActivity : AppCompatActivity() {
         rvInfo.adapter = adapter
         rvInfo.addItemDecoration(object : RecyclerView.ItemDecoration() {
 
-            override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
-                super.getItemOffsets(outRect, view, parent, state)
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                super.getItemOffsets(outRect!!, view!!, parent!!, state!!)
 
 
                 outRect?.bottom = 20
@@ -207,8 +207,8 @@ class SearchActivity : AppCompatActivity() {
 
                     rvInfo.addItemDecoration(object : RecyclerView.ItemDecoration() {
 
-                        override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
-                            super.getItemOffsets(outRect, view, parent, state)
+                        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                            super.getItemOffsets(outRect!!, view!!, parent!!, state!!)
 
 
                             outRect?.bottom = 5

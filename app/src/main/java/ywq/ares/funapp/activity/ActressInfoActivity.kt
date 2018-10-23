@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
+import android.widget.Toast
 import com.ares.datacontentlayout.DataContentLayout
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
@@ -27,41 +28,37 @@ class ActressInfoActivity : BaseActivity() {
 
         return R.layout.activity_actress_detail
     }
-    private lateinit var adapter:SearchItemAdapter
 
-    private var list:ArrayList<ArtWorkItem> = ArrayList()
+    private lateinit var adapter: SearchItemAdapter
+
+    private var list: ArrayList<ArtWorkItem> = ArrayList()
 
 
     private var currentPage = 1
     override fun doMain() {
-
-
         val id = intent.getStringExtra("id")
         val name = intent.getStringExtra("name")
-
-        adapter =  SearchItemAdapter(list)
-        rvArtwork.adapter =adapter
-
-        rvArtwork.layoutManager =getLayoutManager()
-        initToolbarSetting(toolbar,name)
+        adapter = SearchItemAdapter(list)
+        rvArtwork.adapter = adapter
+        tvTitle.text = name
+        rvArtwork.layoutManager = getLayoutManager()
+        initToolbarSetting(toolbar, "")
         loadActressInfo(id)
-        loadWorkList(id,currentPage)
-
-        btnNext.visibility =View.VISIBLE
+        loadWorkList(id, currentPage)
+        btnNext.visibility = View.VISIBLE
         btnNext.setOnClickListener {
-
-            loadWorkList(id,++currentPage)
+            loadWorkList(id, ++currentPage)
         }
         btnPre.setOnClickListener {
-            loadWorkList(id,--currentPage)
+            loadWorkList(id, --currentPage)
 
         }
-        adapter.setOnItemClickEx(object :SearchItemAdapter.OnItemClickEx{
+        adapter.setOnItemClickEx(object : SearchItemAdapter.OnItemClickEx {
 
 
             override fun onClick(item: BaseSearchItem, position: Int) {
 
-                if(item is ArtWorkItem){
+                if (item is ArtWorkItem) {
 
                     ArtworkDetailActivity.start(this@ActressInfoActivity, item.code!!, item.title!!, item.photoUrl!!)
                 }
@@ -74,20 +71,19 @@ class ActressInfoActivity : BaseActivity() {
 
     }
 
-    private var layoutManager:StaggeredGridLayoutManager?=null
+    private var layoutManager: StaggeredGridLayoutManager? = null
 
 
-    private fun getLayoutManager():StaggeredGridLayoutManager{
+    private fun getLayoutManager(): StaggeredGridLayoutManager {
 
-        if(layoutManager ==null){
+        if (layoutManager == null) {
 
             layoutManager = StaggeredGridLayoutManager(3,
                     StaggeredGridLayoutManager.VERTICAL)
             rvArtwork.addItemDecoration(object : RecyclerView.ItemDecoration() {
 
-                override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
+                override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                     super.getItemOffsets(outRect, view, parent, state)
-
 
                     outRect?.bottom = 20
                     outRect?.left = 10
@@ -99,35 +95,35 @@ class ActressInfoActivity : BaseActivity() {
         return layoutManager!!
     }
 
-    private var lastRequst:Disposable?=null
-    private fun loadWorkList(id: String,page :Int){
+    private var lastRequst: Disposable? = null
+    private fun loadWorkList(id: String, page: Int) {
         dataLayout2.showLoading()
 
         currentPage = page
-        if(page>1){
+        if (page > 1) {
 
-            btnPre.visibility =View.VISIBLE
-        }else{
-            btnPre.visibility =View.INVISIBLE
+            btnPre.visibility = View.VISIBLE
+        } else {
+            btnPre.visibility = View.INVISIBLE
         }
 
 
         //取消上一次请求
-        if(lastRequst!=null){
+        if (lastRequst != null) {
 
             lastRequst?.dispose()
         }
-        lastRequst=   DataSource.getArtworkListOfActress(id,page).subscribe({
+        lastRequst = DataSource.getArtworkListOfActress(id, page).subscribe({
 
 
             println("size = ${it.size}")
 
-            if(it.isEmpty()){
+            if (it.isEmpty()) {
 
                 dataLayout2.showEmptyContent()
-                btnNext.visibility=View.GONE
-            }else{
-                btnNext.visibility=View.VISIBLE
+                btnNext.visibility = View.GONE
+            } else {
+                btnNext.visibility = View.VISIBLE
 
                 list.clear()
                 list.addAll(it)
@@ -135,22 +131,22 @@ class ActressInfoActivity : BaseActivity() {
 
                 dataLayout2.showContent()
                 val key = "artist-".plus(id).plus("-artworkList-$page")
-                if(!CacheDataManager.getInstance().cacheExist(key)) {
-                    CacheDataManager.getInstance().saveCache(Gson().toJson(it),key,{})
+                if (!CacheDataManager.getInstance().cacheExist(key)) {
+                    CacheDataManager.getInstance().saveCache(Gson().toJson(it), key, {})
 
                 }
             }
-            if(it.size<30){
-                btnNext.visibility=View.GONE
+            if (it.size < 30) {
+                btnNext.visibility = View.GONE
             }
 
-        },{
+        }, {
 
-            dataLayout2.showError(object :DataContentLayout.ErrorListener{
+            dataLayout2.showError(object : DataContentLayout.ErrorListener {
 
                 override fun showError(view: View) {
 
-                    loadWorkList(id,page)
+                    loadWorkList(id, page)
                 }
             })
 
@@ -160,27 +156,18 @@ class ActressInfoActivity : BaseActivity() {
 
     fun loadActressInfo(id: String) {
         cardView.visibility = View.INVISIBLE
-
         dataLayout.showLoading()
-        DataSource.getActressDetail(id)
-                .subscribe({
-
-
-
+        val dis = DataSource.getActressDetail(id)
+                .subscribe({ it ->
                     val list = ArrayList<Pair<String, String>>()
-
-
                     val url = it.avatar
-                    if(DataSource.isOpenPhoto()){
-
+                    if (DataSource.isOpenPhoto()) {
                         Glide.with(this).load(url).into(ivCover)
-                    }else{
+                    } else {
                         Glide.with(this).load(R.drawable.avatar).into(ivCover)
-
                     }
                     ivCover.setOnClickListener {
-
-                        ShowImageActivity.start(this@ActressInfoActivity, arrayListOf(url),0)
+                        ShowImageActivity.start(this@ActressInfoActivity, arrayListOf(url), 0)
                     }
                     cardView.visibility = View.VISIBLE
 
@@ -195,17 +182,40 @@ class ActressInfoActivity : BaseActivity() {
                     list.add(Pair("home", it.waistline))
                     list.add(Pair("hobby", it.hobby))
 
+                    btnCollect.visibility = View.VISIBLE
+                    btnCollect.isSelected =DataSource.isActressCollected(id)
+                    btnCollect.setOnClickListener {
+                        btnCollect.isSelected = when(btnCollect.isSelected){
+
+                            false -> {
+                                list.add(Pair("avatar",url))
+                                DataSource.collectedActress(id,list)
+                                toast("已收藏")
+                                true
+                            }
+                            true -> {
+                                DataSource.removeCollectedActress(id)
+                                toast("已取消收藏")
+
+                                false
+                            }
+
+
+                        }
+
+                    }
+
                     val adapter = InfoItemAdapter(R.layout.item_actress_info)
                     adapter.setNewData(list)
                     rvInfo.layoutManager = LinearLayoutManager(this@ActressInfoActivity)
-                    rvInfo.adapter =adapter
-                    rvInfo.addItemDecoration(DividerItemDecoration(this,LinearLayoutManager.VERTICAL))
+                    rvInfo.adapter = adapter
+                    rvInfo.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
                     dataLayout.showContent()
 
                     val key = "artist-info-".plus(id)
-                    if(!CacheDataManager.getInstance().cacheExist(key)){
+                    if (!CacheDataManager.getInstance().cacheExist(key)) {
 
-                        CacheDataManager.getInstance().saveCache(Gson().toJson(it),key,{})
+                        CacheDataManager.getInstance().saveCache(Gson().toJson(it), key, {})
                     }
                 }, {
 
@@ -221,9 +231,15 @@ class ActressInfoActivity : BaseActivity() {
 
     }
 
+    fun toast(msg:String){
+
+        Toast.makeText(this,msg,Toast.LENGTH_LONG).show()
+    }
+
+
     companion object {
 
-        fun start(id: String,name:String, context: Context) {
+        fun start(id: String, name: String, context: Context) {
 
             val intent = Intent(context, ActressInfoActivity::class.java)
 

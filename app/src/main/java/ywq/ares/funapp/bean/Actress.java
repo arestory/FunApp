@@ -1,6 +1,8 @@
 package ywq.ares.funapp.bean;
 
-public class Actress {
+import java.io.Serializable;
+
+public class Actress implements Serializable {
 
 
     private String name;

@@ -6,4 +6,8 @@
 
 
     </item>
+    <item android:id="@+id/actionCollect" android:title="@string/title_collect_list" app:showAsAction="never">
+
+
+    </item>
 </menu>

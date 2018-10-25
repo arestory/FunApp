@@ -53,7 +53,6 @@ class SearchItemAdapter
         val cover = helper.getView<ImageView>(R.id.ivCover)
         val tvTips = helper.getView<TextView>(R.id.tvTips)
         helper.itemView.setOnClickListener {
-
             itemClick?.onClick(item,helper.adapterPosition)
         }
         if (item is ArtWorkItem) {

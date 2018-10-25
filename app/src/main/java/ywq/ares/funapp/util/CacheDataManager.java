@@ -9,11 +9,15 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -178,8 +182,6 @@ public class CacheDataManager {
                             }
                     }
                 });
-
-
     }
 
 
@@ -223,6 +225,9 @@ public class CacheDataManager {
 
     }
 
+
+
+
     /**
      * 获取缓存，需运行在 io 线程
      *
@@ -255,8 +260,6 @@ public class CacheDataManager {
             fileE.printStackTrace();
             Map<String, String> map = new ArrayMap<>();
             map.put("path", fileName);
-
-
         } finally {
             //关闭文件流
             if (reader != null) {
@@ -277,6 +280,53 @@ public class CacheDataManager {
 
     }
 
+    public <T> List<T> getContainCacheBean(String key, Class<T> tClass)  {
+
+        List<T> list = new ArrayList<>();
+        final String fileName = AppConstants.LOCAL.NETWORK_CACHE + File.separator + key + ".json";
+
+        File rootFile = new File( AppConstants.LOCAL.NETWORK_CACHE);
+         File[] files=   rootFile.listFiles((dir, name) -> name.contains(key));
+
+        for (File file : files) {
+
+            BufferedReader reader = null;
+            //返回值,使用StringBuffer
+            StringBuffer data = new StringBuffer();
+            //
+            try {
+                reader = new BufferedReader(new FileReader(file));
+                //每次读取文件的缓存
+                String temp = null;
+                while ((temp = reader.readLine()) != null) {
+                    data.append(temp);
+                }
+            } catch (IOException fileE) {
+                fileE.printStackTrace();
+                Map<String, String> map = new ArrayMap<>();
+                map.put("path", fileName);
+            } finally {
+                //关闭文件流
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException ioE) {
+                        ioE.printStackTrace();
+
+                    }
+                }
+            }
+
+            list.add(new Gson().fromJson(data.toString(),tClass));
+
+        }
+
+
+
+        return list;
+
+
+    }
 
     /**
      * 自动将 json 缓存解析成对应的类

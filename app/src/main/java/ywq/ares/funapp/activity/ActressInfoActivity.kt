@@ -18,6 +18,7 @@ import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.InfoItemAdapter
 import ywq.ares.funapp.adapter.SearchItemAdapter
 import ywq.ares.funapp.base.BaseActivity
+import ywq.ares.funapp.bean.Actress
 import ywq.ares.funapp.bean.ArtWorkItem
 import ywq.ares.funapp.bean.BaseSearchItem
 import ywq.ares.funapp.http.DataSource
@@ -38,6 +39,7 @@ class ActressInfoActivity : BaseActivity() {
     override fun doMain() {
         val id = intent.getStringExtra("id")
         val name = intent.getStringExtra("name")
+        val actress  = intent.getSerializableExtra("item") as Actress
         adapter = SearchItemAdapter(list)
         rvArtwork.adapter = adapter
         tvTitle.text = name
@@ -245,6 +247,17 @@ class ActressInfoActivity : BaseActivity() {
 
             intent.putExtra("id", id)
             intent.putExtra("name", name)
+
+            context.startActivity(intent)
+        }
+
+        fun start(id: String, name: String,item:Actress, context: Context) {
+
+            val intent = Intent(context, ActressInfoActivity::class.java)
+
+            intent.putExtra("id", id)
+            intent.putExtra("name", name)
+            intent.putExtra("item", item)
 
             context.startActivity(intent)
         }

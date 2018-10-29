@@ -40,14 +40,11 @@ public class ActressesAdapter extends BaseQuickAdapter<Actress, BaseViewHolder> 
         }else{
             GlideApp.with(cover).asDrawable().load(R.drawable.avatar).into(cover);
         }
-        helper.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        helper.itemView.setOnClickListener(v -> {
 
-                if (onItemClick != null) {
+            if (onItemClick != null) {
 
-                    onItemClick.click(helper.getAdapterPosition(), item);
-                }
+                onItemClick.click(helper.getAdapterPosition(), item);
             }
         });
     }

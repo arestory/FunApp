@@ -95,9 +95,9 @@ class SearchItemAdapter
 
             val obj  = (item as ActressSearchItem)
 
-            helper.setText(R.id.tvName,obj.name)
+           helper.setText(R.id.tvName,obj.name)
 
-            if (DataSource.isOpenPhoto()) {
+            if  (DataSource.isOpenPhoto()) {
 
                 GlideApp.with(cover).asBitmap().load(obj.avatar).placeholder(R.drawable.avatar)
                         .into(cover)

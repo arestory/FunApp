@@ -32,7 +32,7 @@ class ActressFragment : BaseFragment() {
         adapter.setOnItemClick { _, item ->
 
             val id = item.artworkListUrl.split("/").last()
-            ActressInfoActivity.start(id,item.name,this@ActressFragment.activity!!)
+            ActressInfoActivity.start(id,item.name,item,this@ActressFragment.activity!!)
         }
 
 

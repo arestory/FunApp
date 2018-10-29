@@ -41,5 +41,6 @@
     <string name="str_retry_apply">重新申请</string>    <string name="action_cancel">取消</string>
     <string name="save_image_tips">你可以通过长按图片，进行保存</string>
     <string name="title_collect_list">收藏列表</string>
+    <string name="title_collect">收藏列表</string>
 
 </resources>

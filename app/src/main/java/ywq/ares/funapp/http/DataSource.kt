@@ -11,6 +11,8 @@ import ywq.ares.funapp.bean.*
 import ywq.ares.funapp.util.CacheDataManager
 import ywq.ares.funapp.util.SPUtils
 import ywq.ares.funapp.util.rxjava2.SchedulersSwitcher
+import java.io.File
+import java.io.FileFilter
 import java.util.function.BiFunction
 
 object DataSource {
@@ -37,6 +39,8 @@ object DataSource {
 
                 })
     }
+
+
 
     fun getArtworkListOfActress(id: String, page: Int, dataListener: DataListener<List<ArtWorkItem>>) {
 
@@ -143,13 +147,14 @@ object DataSource {
         val artWorkItem =ArtWorkItem()
         artWorkItem.code = code
         artWorkItem.content = item.title
+        artWorkItem.title = item.title
         artWorkItem.date = item.date
         artWorkItem.movieUrl  = item.coverPhotoUrl
         artWorkItem.photoUrl = item.coverPhotoUrl
         val col  = CollectionBean<ArtWorkItem>()
         col.isCollected =true
         col.dataBean =artWorkItem
-        cacheDataManager.saveCache(Gson().toJson(col),"collect-artwork-$code")
+        cacheDataManager.saveCache(Gson().toJson(artWorkItem),"collect-artwork-$code")
     }
 
     fun getCollectedArtworkList():List<ArtWorkItem>{
@@ -164,6 +169,12 @@ object DataSource {
 
     fun isArtWorkCollected(code: String):Boolean{
         return cacheDataManager.cacheExist("collect-artwork-$code")
+    }
+    fun collectedActress(actressId: String, actress:Actress) {
+        val col  = CollectionBean<Actress>()
+        col.isCollected =true
+        col.dataBean =actress
+        cacheDataManager.saveCache(Gson().toJson(actress),"collect-actress-$actressId")
     }
     fun collectedActress(actressId: String, info: ArrayList<Pair<String, String>>) {
         val col  = CollectionBean<ArrayList<Pair<String, String>>>()

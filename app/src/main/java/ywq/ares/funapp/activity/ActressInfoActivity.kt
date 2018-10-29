@@ -35,11 +35,18 @@ class ActressInfoActivity : BaseActivity() {
     private var list: ArrayList<ArtWorkItem> = ArrayList()
 
 
+    private  var actress: Actress?=null
     private var currentPage = 1
     override fun doMain() {
         val id = intent.getStringExtra("id")
         val name = intent.getStringExtra("name")
-        val actress  = intent.getSerializableExtra("item") as Actress
+        val obj = intent.getSerializableExtra("item")
+        this.actress = if(obj!=null){
+           obj as Actress
+        }else{
+            null
+        }
+
         adapter = SearchItemAdapter(list)
         rvArtwork.adapter = adapter
         tvTitle.text = name
@@ -87,9 +94,9 @@ class ActressInfoActivity : BaseActivity() {
                 override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                     super.getItemOffsets(outRect, view, parent, state)
 
-                    outRect?.bottom = 20
-                    outRect?.left = 10
-                    outRect?.right = 10
+                    outRect.bottom = 20
+                    outRect.left = 10
+                    outRect.right = 10
                 }
             })
         }
@@ -97,7 +104,7 @@ class ActressInfoActivity : BaseActivity() {
         return layoutManager!!
     }
 
-    private var lastRequst: Disposable? = null
+    private var lastRequest: Disposable? = null
     private fun loadWorkList(id: String, page: Int) {
         dataLayout2.showLoading()
 
@@ -111,11 +118,11 @@ class ActressInfoActivity : BaseActivity() {
 
 
         //取消上一次请求
-        if (lastRequst != null) {
+        if (lastRequest != null) {
 
-            lastRequst?.dispose()
+            lastRequest?.dispose()
         }
-        lastRequst = DataSource.getArtworkListOfActress(id, page).subscribe({
+        lastRequest = DataSource.getArtworkListOfActress(id, page).subscribe({
 
 
             println("size = ${it.size}")
@@ -191,7 +198,10 @@ class ActressInfoActivity : BaseActivity() {
 
                             false -> {
                                 list.add(Pair("avatar",url))
-                                DataSource.collectedActress(id,list)
+                                if(actress!=null){
+
+                                    DataSource.collectedActress(id,actress!!)
+                                }
                                 toast("已收藏")
                                 true
                             }
@@ -233,7 +243,7 @@ class ActressInfoActivity : BaseActivity() {
 
     }
 
-    fun toast(msg:String){
+  private  fun toast(msg:String){
 
         Toast.makeText(this,msg,Toast.LENGTH_LONG).show()
     }
@@ -241,15 +251,6 @@ class ActressInfoActivity : BaseActivity() {
 
     companion object {
 
-        fun start(id: String, name: String, context: Context) {
-
-            val intent = Intent(context, ActressInfoActivity::class.java)
-
-            intent.putExtra("id", id)
-            intent.putExtra("name", name)
-
-            context.startActivity(intent)
-        }
 
         fun start(id: String, name: String,item:Actress, context: Context) {
 

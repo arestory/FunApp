@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.content_search.*
 import ywq.ares.funapp.R
 import ywq.ares.funapp.adapter.SearchItemAdapter
+import ywq.ares.funapp.bean.Actress
 import ywq.ares.funapp.bean.ActressSearchItem
 import ywq.ares.funapp.bean.ArtWorkItem
 import ywq.ares.funapp.bean.BaseSearchItem
@@ -33,7 +34,7 @@ class SearchActivity : AppCompatActivity() {
 
     private val adapter = SearchItemAdapter(ArrayList())
 
-    private var disposable:Disposable?=null
+    private var disposable: Disposable? = null
 
     private fun checkPermission() {
 
@@ -52,11 +53,11 @@ class SearchActivity : AppCompatActivity() {
 
         if (isPermissionPass) {
 
-            val ignorePer= permissions.map {
+            val ignorePer = permissions.map {
 
 
                 //检测用户是否点击了不再询问
-                val flag =  ActivityCompat.shouldShowRequestPermissionRationale(this,it)
+                val flag = ActivityCompat.shouldShowRequestPermissionRationale(this, it)
 
                 println(" it per = $flag")
                 flag
@@ -64,12 +65,12 @@ class SearchActivity : AppCompatActivity() {
 
                 false
             }
-            if(!ignorePer){
+            if (!ignorePer) {
 
                 showAlertDialog()
 
 
-            }else{
+            } else {
                 showRequestPermissionDialog()
 
             }
@@ -77,26 +78,25 @@ class SearchActivity : AppCompatActivity() {
 
 
     }
-    
+
     private var clickJump = false
 
     private fun showAlertDialog() {
 
         val dialog = AlertDialog.Builder(this).setMessage(getString(R.string.title_alert_dialog)).setPositiveButton(getString(R.string.action_jump)) { _, _ ->
-            clickJump= true
+            clickJump = true
             PermissionUtils(this@SearchActivity).startPermissionSetting()
         }.setNegativeButton(R.string.action_cancel) { _, _ -> finish() }.create()
 
         dialog.setOnCancelListener {
 
 
-            Toast.makeText(this@SearchActivity,getString(R.string.miss_permission_tips),Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@SearchActivity, getString(R.string.miss_permission_tips), Toast.LENGTH_SHORT).show()
             finish()
         }
 
         dialog.show()
     }
-
 
 
     private fun showRequestPermissionDialog() {
@@ -105,7 +105,7 @@ class SearchActivity : AppCompatActivity() {
 
         dialog.setOnCancelListener {
 
-            Toast.makeText(this@SearchActivity,getString(R.string.miss_permission_tips),Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@SearchActivity, getString(R.string.miss_permission_tips), Toast.LENGTH_SHORT).show()
             finish()
         }
 
@@ -118,11 +118,9 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
         setSupportActionBar(toolbar)
 
-        checkPermission()
-        toolbar.setOnClickListener{
-
-            nestedSv.scrollTo(0,-100)
-
+         checkPermission()
+        toolbar.setOnClickListener {
+            nestedSv.scrollTo(0, -100)
         }
         rvInfo.adapter = adapter
         rvInfo.addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -148,7 +146,11 @@ class SearchActivity : AppCompatActivity() {
                 if (item is ActressSearchItem) {
 
 
-                    ActressInfoActivity.start(item.id!!, item.name!!,this@SearchActivity)
+                    val actress = Actress()
+                    actress.name = item.name
+                    actress.avatar = item.avatar
+                    actress.artworkListUrl = item.workListUrl
+                    ActressInfoActivity.start(item.id!!, item.name!!, actress, this@SearchActivity)
 
 
                 } else if (item is ArtWorkItem) {
@@ -169,9 +171,9 @@ class SearchActivity : AppCompatActivity() {
 
 
 
-            if(keyword == ""){
+            if (keyword == "") {
 
-                Toast.makeText(this,getString(R.string.input_keyword_tips),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.input_keyword_tips), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             KeyboradUtils.hide(it)
@@ -183,7 +185,6 @@ class SearchActivity : AppCompatActivity() {
 //        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE//不设置的话，图片闪烁错位，有可能有整列错位的情况。
 
 
-
                     rvInfo.layoutManager = layoutManager
                     1
                 }
@@ -192,7 +193,6 @@ class SearchActivity : AppCompatActivity() {
                     val layoutManager = StaggeredGridLayoutManager(3,
                             StaggeredGridLayoutManager.VERTICAL)
 //        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE//不设置的话，图片闪烁错位，有可能有整列错位的情况。
-
 
 
                     rvInfo.layoutManager = layoutManager
@@ -223,10 +223,9 @@ class SearchActivity : AppCompatActivity() {
 
             }
             contentLayout.showLoading()
-            val page = when(etPage.text.toString()){
+            val page = when (etPage.text.toString()) {
 
-                "" ,"0"->
-                {
+                "", "0" -> {
                     etPage.setText("1")
                     1
                 }
@@ -235,7 +234,7 @@ class SearchActivity : AppCompatActivity() {
             }
             if (type == 2) {
 
-                disposable=   DataSource.getActressList(keyword, page)
+                disposable = DataSource.getActressList(keyword, page)
                         .subscribe({
 
 
@@ -266,7 +265,7 @@ class SearchActivity : AppCompatActivity() {
             } else {
 
 
-                disposable=    DataSource.getArtworkList(keyword, page, type)
+                disposable = DataSource.getArtworkList(keyword, page, type)
                         .subscribe({
 
 
@@ -313,6 +312,10 @@ class SearchActivity : AppCompatActivity() {
                 true
 
             }
+            R.id.actionCollect -> {
+                CollectActivity.start(this)
+                true
+            }
             else -> false
         }
 
@@ -330,6 +333,7 @@ class SearchActivity : AppCompatActivity() {
         super.onDestroy()
         disposable?.dispose()
     }
+
     companion object {
 
         const val REQUEST_PERMISSION = 1000

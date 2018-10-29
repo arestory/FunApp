@@ -10,7 +10,7 @@ open class CollectionBean<T>:MultiItemEntity{
      var dataBean:T?=null
 
      override fun getItemType(): Int {
-          return when(dataBean is MovieSearchItem){
+          return when(dataBean is ArtWorkItem){
                true -> 1
                false ->2
 

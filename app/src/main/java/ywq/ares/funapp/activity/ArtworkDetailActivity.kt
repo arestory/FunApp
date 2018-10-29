@@ -41,11 +41,10 @@ class ArtworkDetailActivity : BaseActivity() {
     }
 
 
-
-    var artDetailDisposable :Disposable?=null
+    private var artDetailDisposable: Disposable? = null
     fun loadData(code: String) {
 
-        DataSource.  getVideoList(code,object:DataSource.DataListener<List<VideoSearchItem>>{
+        DataSource.getVideoList(code, object : DataSource.DataListener<List<VideoSearchItem>> {
 
             override fun onSuccess(t: List<VideoSearchItem>) {
 
@@ -114,11 +113,11 @@ class ArtworkDetailActivity : BaseActivity() {
             })
         })
     }
-    fun toast(msg:String){
 
-        Toast.makeText(this,msg, Toast.LENGTH_LONG).show()
+    fun toast(msg: String) {
+
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
     }
-
 
 
     override fun getLayoutId(): Int {
@@ -138,7 +137,8 @@ class ArtworkDetailActivity : BaseActivity() {
             intent.putExtra("coverUrl", coverUrl)
             context.startActivity(intent)
         }
-        fun start(context: Context, code: String, title: String, coverUrl: String,item:ArtWorkItem) {
+
+        fun start(context: Context, code: String, title: String, coverUrl: String, item: ArtWorkItem) {
 
             val intent = Intent(context, ArtworkDetailActivity::class.java)
 

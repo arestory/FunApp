@@ -69,10 +69,12 @@ class ArtworkDetailActivity : BaseActivity() {
             titleList.add(getString(R.string.tab_title_artist))
             titleList.add(getString(R.string.tab_title_gallery))
             titleList.add(getString(R.string.tab_title_relate))
+            titleList.add(getString(R.string.tab_title_video))
             fragmentList.add(ArtWorkInfoFragment.newInstance(item))
             fragmentList.add(ActressFragment.newInstance(item))
             fragmentList.add(SamplePhotoFragment.newInstance(item))
             fragmentList.add(RelateArtworkFragment.newInstance(item))
+            fragmentList.add(VideoFragment.newInstance(item.code!!))
             val adapter = ArtworkPageAdapter(supportFragmentManager, fragmentList, titleList)
 
             viewPager.adapter = adapter

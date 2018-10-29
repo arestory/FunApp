@@ -43,5 +43,6 @@
     <string name="str_retry_apply">apply</string>
     <string name="action_cancel">cancel</string>
     <string name="title_collect">favorite</string>
+    <string name="tab_title_video">video</string>
 
 </resources>

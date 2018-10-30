@@ -68,13 +68,13 @@ class ArtworkDetailActivity : BaseActivity() {
             titleList.add(getString(R.string.tab_title_intro))
             titleList.add(getString(R.string.tab_title_artist))
             titleList.add(getString(R.string.tab_title_gallery))
-            titleList.add(getString(R.string.tab_title_relate))
             titleList.add(getString(R.string.tab_title_video))
+            titleList.add(getString(R.string.tab_title_relate))
             fragmentList.add(ArtWorkInfoFragment.newInstance(item))
             fragmentList.add(ActressFragment.newInstance(item))
             fragmentList.add(SamplePhotoFragment.newInstance(item))
-            fragmentList.add(RelateArtworkFragment.newInstance(item))
             fragmentList.add(VideoFragment.newInstance(item.code!!))
+            fragmentList.add(RelateArtworkFragment.newInstance(item))
             val adapter = ArtworkPageAdapter(supportFragmentManager, fragmentList, titleList)
 
             viewPager.adapter = adapter
@@ -87,7 +87,7 @@ class ArtworkDetailActivity : BaseActivity() {
             tabLayout.visibility = View.VISIBLE
 
             dataLayout.showContent()
-
+            viewPager.offscreenPageLimit = 5
             btnCollect.visibility = View.VISIBLE
             btnCollect.isSelected = DataSource.isArtWorkCollected(code)
             btnCollect.setOnClickListener {

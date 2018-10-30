@@ -42,6 +42,6 @@
     <string name="save_image_tips">你可以通过长按图片，进行保存</string>
     <string name="title_collect_list">收藏列表</string>
     <string name="title_collect">收藏列表</string>
-    <string name="tab_title_video">链接</string>
+    <string name="tab_title_video">通道</string>
 
 </resources>

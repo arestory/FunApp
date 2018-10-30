@@ -27,19 +27,19 @@ object DataSource {
         fun onSuccess(t: T)
         fun onFail()
     }
-    fun getVideoList(code:String,dataListener: DataListener<List<VideoSearchItem>>){
+
+    fun getVideoList(code: String, dataListener: DataListener<List<VideoSearchItem>>) {
 
         val dis = api.searchArtWorkVideo(code).compose(SchedulersSwitcher.io2UiThread())
                 .subscribe({
 
                     dataListener.onSuccess(it)
 
-                },{
+                }, {
                     dataListener.onFail()
 
                 })
     }
-
 
 
     fun getArtworkListOfActress(id: String, page: Int, dataListener: DataListener<List<ArtWorkItem>>) {
@@ -118,7 +118,7 @@ object DataSource {
 
     fun getArtworkDetail(code: String, dataListener: DataListener<MovieSearchItem>) {
 
-       val dis =  getArtworkDetail(code).subscribe({
+        val dis = getArtworkDetail(code).subscribe({
 
             dataListener.onSuccess(it)
         }, {
@@ -144,53 +144,100 @@ object DataSource {
     }
 
     fun collectedArtWork(code: String, item: MovieSearchItem) {
-        val artWorkItem =ArtWorkItem()
+        val artWorkItem = ArtWorkItem()
         artWorkItem.code = code
         artWorkItem.content = item.title
         artWorkItem.title = item.title
         artWorkItem.date = item.date
-        artWorkItem.movieUrl  = item.coverPhotoUrl
+        artWorkItem.movieUrl = item.coverPhotoUrl
         artWorkItem.photoUrl = item.coverPhotoUrl
-        val col  = CollectionBean<ArtWorkItem>()
-        col.isCollected =true
-        col.dataBean =artWorkItem
-        cacheDataManager.saveCache(Gson().toJson(artWorkItem),"collect-artwork-$code")
+        val col = CollectionBean<ArtWorkItem>()
+        col.isCollected = true
+        col.dataBean = artWorkItem
+        cacheDataManager.saveCache(Gson().toJson(artWorkItem), "collect-artwork-$code")
     }
 
-    fun getCollectedArtworkList():List<ArtWorkItem>{
+    fun getCollectedArtworkList(): List<ArtWorkItem> {
 
-        return cacheDataManager.getContainCacheBean("collect-artwork-",ArtWorkItem::class.java)
-    }
-    fun getCollectedActresses():List<Actress>{
-
-        return cacheDataManager.getContainCacheBean("collect-actress-",Actress::class.java)
+        return cacheDataManager.getContainCacheBean("collect-artwork-", ArtWorkItem::class.java)
     }
 
+    fun getCollectedActresses(): List<Actress> {
 
-    fun isArtWorkCollected(code: String):Boolean{
+        return cacheDataManager.getContainCacheBean("collect-actress-", Actress::class.java)
+    }
+
+    fun getCollectionBean(listener: DataListener<List<CollectionBean<*>>>) {
+
+        val dis = Observable.create<List<CollectionBean<*>>> { it ->
+
+
+            val list = ArrayList<CollectionBean<*>>()
+            val artworkList = getCollectedArtworkList()
+            val actressList = getCollectedActresses()
+            if(artworkList.isNotEmpty()){
+                artworkList.forEach {
+
+                    val collectionBean = CollectionBean<ArtWorkItem>()
+                    collectionBean.dataBean = it
+                    list.add(collectionBean)
+                }
+            }
+           if(actressList.isNotEmpty()){
+               actressList.forEach {
+
+                   val collectionBean = CollectionBean<Actress>()
+                   collectionBean.dataBean = it
+                   list.add(collectionBean)
+               }
+           }
+
+
+            it.onNext(list)
+            it.onComplete()
+
+        }.compose(SchedulersSwitcher.io2UiThread())
+                .subscribe({
+
+                    listener.onSuccess(it)
+                }, {
+                   listener.onFail()
+                })
+
+
+    }
+
+
+    fun isArtWorkCollected(code: String): Boolean {
         return cacheDataManager.cacheExist("collect-artwork-$code")
     }
-    fun collectedActress(actressId: String, actress:Actress) {
-        val col  = CollectionBean<Actress>()
-        col.isCollected =true
-        col.dataBean =actress
-        cacheDataManager.saveCache(Gson().toJson(actress),"collect-actress-$actressId")
+
+    fun collectedActress(actressId: String, actress: Actress) {
+        val col = CollectionBean<Actress>()
+        col.isCollected = true
+        col.dataBean = actress
+        cacheDataManager.saveCache(Gson().toJson(actress), "collect-actress-$actressId")
     }
+
     fun collectedActress(actressId: String, info: ArrayList<Pair<String, String>>) {
-        val col  = CollectionBean<ArrayList<Pair<String, String>>>()
-        col.isCollected =true
-        col.dataBean =info
-        cacheDataManager.saveCache(Gson().toJson(col),"collect-actress-$actressId")
+        val col = CollectionBean<ArrayList<Pair<String, String>>>()
+        col.isCollected = true
+        col.dataBean = info
+        cacheDataManager.saveCache(Gson().toJson(col), "collect-actress-$actressId")
     }
-    fun isActressCollected(actressId: String):Boolean{
+
+    fun isActressCollected(actressId: String): Boolean {
         return cacheDataManager.cacheExist("collect-actress-$actressId")
     }
+
     fun removeCollectedArtWork(code: String) {
-         cacheDataManager.clearCache("collect-artwork-$code")
+        cacheDataManager.clearCache("collect-artwork-$code")
     }
+
     fun removeCollectedActress(id: String) {
         cacheDataManager.clearCache("collect-actress-$id")
     }
+
     fun getArtworkList(keyword: String, page: Int, type: Int): Observable<List<ArtWorkItem>> {
         return api.getSearchList(keyword, page, type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
     }

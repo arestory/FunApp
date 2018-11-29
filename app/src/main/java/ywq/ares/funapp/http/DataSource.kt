@@ -242,6 +242,9 @@ object DataSource {
         return api.getSearchList(keyword, page, type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
     }
 
+    fun getArtworkListMain(page: Int): Observable<List<ArtWorkItem>> {
+        return api.getMainPage( page).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+    }
     fun isOpenPhoto(): Boolean {
 
 

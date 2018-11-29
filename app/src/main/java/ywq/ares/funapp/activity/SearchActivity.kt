@@ -164,14 +164,25 @@ class SearchActivity : AppCompatActivity() {
 
         rvInfo.isNestedScrollingEnabled = false
         contentLayout.nonShow()
+        rg.setOnCheckedChangeListener { group, checkedId ->
+
+            if(checkedId == R.id.rbMainPage){
+                if(inputLayout.visibility==View.VISIBLE){
+                    inputLayout.visibility =View.GONE
+                }
+
+            }else{
+                if(inputLayout.visibility==View.GONE){
+                    inputLayout.visibility =View.VISIBLE
+                }
+            }
+        }
         btnSearch.setOnClickListener {
 
             disposable?.dispose()
             val keyword = etKeyword.text.toString()
 
-
-
-            if (keyword == "") {
+            if (keyword == "" && rg.checkedRadioButtonId != R.id.rbMainPage) {
 
                 Toast.makeText(this, getString(R.string.input_keyword_tips), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -186,6 +197,7 @@ class SearchActivity : AppCompatActivity() {
 
 
                     rvInfo.layoutManager = layoutManager
+
                     1
                 }
                 R.id.rbArtwork2 -> {
@@ -219,7 +231,15 @@ class SearchActivity : AppCompatActivity() {
                     rvInfo.layoutManager = layoutManager
                     2
                 }
-                else -> -1
+                else -> {
+                    val layoutManager = StaggeredGridLayoutManager(3,
+                            StaggeredGridLayoutManager.VERTICAL)
+//        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE//不设置的话，图片闪烁错位，有可能有整列错位的情况。
+
+
+                    rvInfo.layoutManager = layoutManager
+                    3
+                }
 
             }
             contentLayout.showLoading()
@@ -254,7 +274,6 @@ class SearchActivity : AppCompatActivity() {
                             contentLayout.showError(object : DataContentLayout.ErrorListener {
                                 override fun showError(view: View) {
 
-
                                     btnSearch.performClick()
                                 }
 
@@ -262,7 +281,39 @@ class SearchActivity : AppCompatActivity() {
                             })
                         })
 
-            } else {
+            }else if(type==3){
+
+                disposable = DataSource.getArtworkListMain(page).subscribe({
+
+                    if(!it.isEmpty()){
+                        contentLayout.showEmptyContent(getString(R.string.tips_empty))
+
+                        adapter.setNewData(it)
+                        contentLayout.showContent()
+                    }else{
+
+                        contentLayout.showEmptyContent()
+
+                    }
+
+
+                },{
+
+                    it.printStackTrace()
+                    contentLayout.showError(object : DataContentLayout.ErrorListener {
+                        override fun showError(view: View) {
+
+
+                            btnSearch.performClick()
+
+
+                        }
+                    })
+
+                })
+            }
+
+            else {
 
 
                 disposable = DataSource.getArtworkList(keyword, page, type)
@@ -285,6 +336,7 @@ class SearchActivity : AppCompatActivity() {
                             contentLayout.showError(object : DataContentLayout.ErrorListener {
                                 override fun showError(view: View) {
 
+                                    btnSearch.performClick()
 
                                 }
 

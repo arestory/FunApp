@@ -11,6 +11,9 @@ interface ArtworkApi {
 
 
 
+    @GET("/artwork/main/{page}")
+    fun getMainPage(@Path("page") page: Int):Observable<List<ArtWorkItem>>
+
     @GET("/artwork/actress")
     fun getArtworkListOfActress( @Query(value = "id") id: String,@Query("page") page:Int): Observable<List<ArtWorkItem>>
 

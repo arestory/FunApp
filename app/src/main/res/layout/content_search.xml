@@ -82,7 +82,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/rb_title_abstractionism" />
-
+                    <RadioButton
+                        android:id="@+id/rbMainPage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rb_title_main" />
                 </RadioGroup>
 
                 <Button

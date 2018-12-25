@@ -56,9 +56,9 @@ class ArtworkListActivity : BaseActivity() {
 
             btnSearch.isEnabled = true
 
-            if (!CacheDataManager.getInstance().cacheExist("artist-".plus(id).plus("-$page"))) {
+            if (!CacheDataManager.cacheExist("artist-".plus(id).plus("-$page"))) {
 
-                CacheDataManager.getInstance().saveCache(Gson().toJson(it),"artist-".plus(id).plus("-$page"),{})
+                CacheDataManager.saveCache(Gson().toJson(it),"artist-".plus(id).plus("-$page"),null)
             }
             if(it.isEmpty()){
 

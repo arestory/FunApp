@@ -7,9 +7,11 @@ import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.*
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -138,6 +140,7 @@ class SearchActivity : AppCompatActivity() {
 
 
 
+
         adapter.setOnItemClickEx(object : SearchItemAdapter.OnItemClickEx {
 
             override fun onClick(item: BaseSearchItem, position: Int) {
@@ -174,12 +177,15 @@ class SearchActivity : AppCompatActivity() {
             }else{
                 if(inputLayout.visibility==View.GONE){
                     inputLayout.visibility =View.VISIBLE
+//                    btnSearch.text=resources.getString(R.string.btn_search)
                 }
             }
         }
-        btnSearch.setOnClickListener {
 
+        btnSearch.setOnClickListener { it ->
             disposable?.dispose()
+
+            btnUp.visibility=View.GONE
             val keyword = etKeyword.text.toString()
 
             if (keyword == "" && rg.checkedRadioButtonId != R.id.rbMainPage) {
@@ -187,6 +193,8 @@ class SearchActivity : AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.input_keyword_tips), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            btnSearch.isEnabled = false
             KeyboradUtils.hide(it)
             val type = when (rg.checkedRadioButtonId) {
 
@@ -247,16 +255,16 @@ class SearchActivity : AppCompatActivity() {
 
                 "", "0" -> {
                     etPage.setText("1")
+                    etPage.setSelection(1)
                     1
                 }
                 else -> etPage.text.toString().toInt()
-
             }
-            if (type == 2) {
-
-                disposable = DataSource.getActressList(keyword, page)
+            when (type) {
+                2 -> disposable = DataSource.getActressList(keyword, page)
                         .subscribe({
 
+                            btnSearch.isEnabled = true
 
                             if (!it.isEmpty()) {
 
@@ -264,12 +272,17 @@ class SearchActivity : AppCompatActivity() {
 
                                 adapter.setNewData(it)
                                 contentLayout.showContent()
+                                btnUp.visibility=View.VISIBLE
                             } else {
                                 contentLayout.showEmptyContent()
 
+                                btnUp.visibility=View.GONE
+
                             }
                         }, {
+                            btnSearch.isEnabled = true
 
+                            btnUp.visibility=View.GONE
                             it.printStackTrace()
                             contentLayout.showError(object : DataContentLayout.ErrorListener {
                                 override fun showError(view: View) {
@@ -280,25 +293,27 @@ class SearchActivity : AppCompatActivity() {
 
                             })
                         })
-
-            }else if(type==3){
-
-                disposable = DataSource.getArtworkListMain(page).subscribe({
+                3 -> disposable = DataSource.getArtworkListMain(page).subscribe({
+                    btnSearch.isEnabled = true
 
                     if(!it.isEmpty()){
                         contentLayout.showEmptyContent(getString(R.string.tips_empty))
 
+                        btnUp.visibility=View.VISIBLE
                         adapter.setNewData(it)
                         contentLayout.showContent()
                     }else{
 
+                        btnUp.visibility=View.GONE
                         contentLayout.showEmptyContent()
 
                     }
 
 
                 },{
+                    btnSearch.isEnabled = true
 
+                    btnUp.visibility=View.GONE
                     it.printStackTrace()
                     contentLayout.showError(object : DataContentLayout.ErrorListener {
                         override fun showError(view: View) {
@@ -311,12 +326,7 @@ class SearchActivity : AppCompatActivity() {
                     })
 
                 })
-            }
-
-            else {
-
-
-                disposable = DataSource.getArtworkList(keyword, page, type)
+                else -> disposable = DataSource.getArtworkList(keyword, page, type)
                         .subscribe({
 
 
@@ -324,14 +334,18 @@ class SearchActivity : AppCompatActivity() {
 
                                 contentLayout.showEmptyContent(getString(R.string.tips_empty))
 
+                                btnUp.visibility=View.VISIBLE
                                 adapter.setNewData(it)
                                 contentLayout.showContent()
                             } else {
+
+                                btnUp.visibility=View.GONE
                                 contentLayout.showEmptyContent()
 
                             }
                         }, {
 
+                            btnUp.visibility=View.GONE
                             it.printStackTrace()
                             contentLayout.showError(object : DataContentLayout.ErrorListener {
                                 override fun showError(view: View) {
@@ -343,10 +357,32 @@ class SearchActivity : AppCompatActivity() {
 
                             })
                         })
-
             }
 
 
+        }
+
+        btnUp.setOnClickListener {
+
+            nestedSv.scrollTo(0, -100)
+
+        }
+
+        nestedSv.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+
+            if(oldScrollY-scrollY>0){
+                //top
+                if(btnUp.visibility==View.GONE){
+
+                    btnUp.show()
+                }
+            }else{
+                if(btnUp.visibility==View.VISIBLE){
+
+                    btnUp.hide()
+                }
+
+            }
         }
 
     }

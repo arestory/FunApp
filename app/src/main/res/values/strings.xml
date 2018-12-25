@@ -45,5 +45,8 @@
     <string name="title_collect">favorite</string>
     <string name="tab_title_video">bridge</string>
     <string name="rb_title_main">main</string>
+    <string name="btn_next_page">NextPage</string>
+    <string name="collect_title_artwork">artwork</string>
+    <string name="collect_title_actress">actress</string>
 
 </resources>

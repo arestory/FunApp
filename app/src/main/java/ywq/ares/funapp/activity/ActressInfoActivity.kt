@@ -140,8 +140,8 @@ class ActressInfoActivity : BaseActivity() {
 
                 dataLayout2.showContent()
                 val key = "artist-".plus(id).plus("-artworkList-$page")
-                if (!CacheDataManager.getInstance().cacheExist(key)) {
-                    CacheDataManager.getInstance().saveCache(Gson().toJson(it), key, {})
+                if (!CacheDataManager.cacheExist(key)) {
+                    CacheDataManager.saveCache(Gson().toJson(it), key, null)
 
                 }
             }
@@ -225,9 +225,9 @@ class ActressInfoActivity : BaseActivity() {
                     dataLayout.showContent()
 
                     val key = "artist-info-".plus(id)
-                    if (!CacheDataManager.getInstance().cacheExist(key)) {
+                    if (!CacheDataManager.cacheExist(key)) {
 
-                        CacheDataManager.getInstance().saveCache(Gson().toJson(it), key, {})
+                        CacheDataManager.saveCache(Gson().toJson(it), key, null)
                     }
                 }, {
 

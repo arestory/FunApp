@@ -44,5 +44,8 @@
     <string name="title_collect">收藏列表</string>
     <string name="tab_title_video">通道</string>
     <string name="rb_title_main">主页</string>
+    <string name="btn_next_page">下一页</string>
+    <string name="collect_title_artwork">艺术品</string>
+    <string name="collect_title_actress">艺术家</string>
 
 </resources>

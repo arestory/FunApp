@@ -79,9 +79,9 @@ class ArtworkDetailActivity : BaseActivity() {
 
             viewPager.adapter = adapter
             //保存缓存
-            if (!CacheDataManager.getInstance().cacheExist("artwork-".plus(code))) {
+            if (!CacheDataManager.cacheExist("artwork-".plus(code))) {
 
-                CacheDataManager.getInstance().saveCache(Gson().toJson(item), "artwork-".plus(code), {})
+                CacheDataManager.saveCache(Gson().toJson(item), "artwork-".plus(code), null)
             }
             tabLayout.setupWithViewPager(viewPager)
             tabLayout.visibility = View.VISIBLE

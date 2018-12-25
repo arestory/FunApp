@@ -19,7 +19,7 @@ public  final class AppConstants {
     public static class URL{
 
 
-        public static final String ARTWORK_URL = "http://ares-space.com:9595/";
+        public static final String ARTWORK_URL = "http://45.62.98.190:9595/";
     }
 
     public static class Constants{

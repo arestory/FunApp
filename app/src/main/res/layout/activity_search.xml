@@ -29,4 +29,12 @@
         layout="@layout/content_search" />
 
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnUp"
+        android:visibility="gone"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_arrow_upward_white"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </android.support.design.widget.CoordinatorLayout>
